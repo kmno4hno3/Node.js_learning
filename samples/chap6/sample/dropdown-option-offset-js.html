@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<title>ドロップダウン</title>
+<style>
+/* 本文に関連のないスタイル */
+body {
+  padding-top: 2rem;
+}
+.container {
+  margin-bottom: 2rem;
+}
+</style>
+</head>
+<body>
+<h1 class="text-center mb-5">フォームとボタンのコンポーネント：ドロップダウン</h1>
+<h2 class="text-center mb-5">ドロップダウンのオフセット値を設定する</h2>
+<div class="container">
+  <!-- ドロップダウン -->
+  <div class="dropdown">
+    <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ドロップダウンボタン</button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" href="#">メニュー1</a>
+      <a class="dropdown-item" href="#">メニュー2</a>
+      <a class="dropdown-item" href="#">メニュー3</a>
+    </div>
+  </div>
+</div>
+<script src="js/jquery-3.3.1.slim.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script>
+  $(function() {
+    $('#dropdownMenuButton').dropdown({
+      offset: '10, 20'
+    })
+  });
+</script>
+</body>
+
+</html>

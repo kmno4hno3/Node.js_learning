@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<title>フォーム</title>
+<style>
+/* 本文に関連のないスタイル */
+body {
+  padding-top: 2rem;
+}
+.container {
+  margin-bottom: 2rem;
+}
+</style>
+</head>
+<body>
+<h1 class="text-center mb-5">コンポーネント：フォーム</h1>
+<h2 class="text-center mb-4">カスタムフォームのチェックボックスとラジオボタンを無効にする</h2>
+<div class="container">
+  <form>
+    <!-- チェックボックスを無効にする -->
+    <div class="custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input" id="customCheckDisabled" disabled>
+      <label class="custom-control-label" for="customCheckDisabled">
+        チェック（無効）
+      </label>
+    </div>
+    <!-- ラジオボタンを無効にする -->
+    <div class="custom-control custom-radio">
+      <input type="radio" name="radioDisabled" id="customRadioDisabled" class="custom-control-input" disabled>
+      <label class="custom-control-label" for="customRadioDisabled">
+        オプション（無効）
+      </label>
+    </div>
+  </form>
+</div>
+<script src="js/jquery-3.3.1.slim.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

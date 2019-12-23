@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<!-- 追加CSS -->
+<link rel="stylesheet" href="css/custom.css">
+<title>カフェ Mr. M COFFEE（ミスターエムコーヒー）</title>
+</head>
+<body>
+<!-- ヘッダー -->
+<header class="py-4">
+  <div class="container text-center">
+    <h1><a href="index.html"><img src="img/logo.png" alt="カフェ Mr. M COFFEE"></a></h1>
+  </div>
+</header>
+<!-- /ヘッダー -->
+<!-- ナビゲーションバー -->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+  <!-- サブコンポーネント -->
+  <div class="container">
+    <!-- ブランド -->
+    <a class="navbar-brand" href="index.html">Mr. M COFFEE</a>
+    <!-- 切替ボタン -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- ナビゲーション -->
+    <div class="collapse navbar-collapse" id="navbar-content">
+      <!-- ナビゲーションメニュー -->
+      <!-- 左側メニュー：トップページの各コンテンツへのリンク -->
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Top <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Menu</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Coupon</a>
+        </li>
+        <!-- ドロップダウン -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Information
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Shop</a>
+            <a class="dropdown-item" href="#">Access</a>
+          </div>
+        </li>
+      </ul>
+
+      <!-- 右側メニュー：Contactページへのリンク -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a href="contact.html" class="nav-link btn btn-info">Contact</a>
+        </li>
+      </ul>
+      <!-- /ナビゲーションメニュー -->
+    </div>
+  </div>
+  <!-- /サブコンポーネント -->
+</nav>
+<!-- /ナビゲーションバー -->
+<!-- メイン -->
+<main>
+  <!-- メインビジュアル -->
+  <div class="py-4">
+    <div class="container">
+      <!-- カルーセル外枠 -->
+      <div id="main_visual" class="carousel slide" data-ride="carousel">
+        <!-- インジケーター -->
+        <ol class="carousel-indicators">
+          <li data-target="#main_visual" data-slide-to="0" class="active"></li>
+          <li data-target="#main_visual" data-slide-to="1"></li>
+          <li data-target="#main_visual" data-slide-to="2"></li>
+        </ol>
+        <!-- / インジケーター -->
+        <!-- カルーセル内枠 -->
+        <div class="carousel-inner">
+          <!-- スライド01 -->
+          <div class="carousel-item active">
+            <img class="img-fluid" src="img/slide_01.jpg" alt="コーヒー写真">
+            <div class="carousel-caption d-none d-md-block">
+              <h2>Mr. M COFFEEのこだわり</h2>
+              <p>店主が世界中のコーヒー豆を厳選し、コーヒー豆の種類にあわせ、心を込めて焙煎、抽出しております。</p>
+            </div>
+          </div>
+          <!-- / スライド01 -->
+          <!-- スライド02 -->
+          <div class="carousel-item">
+            <img class="img-fluid" src="img/slide_02.jpg" alt="ランチ写真">
+            <div class="carousel-caption d-none d-md-block">
+              <h2>Mr. M COFFEEのメニュー</h2>
+              <p>コーヒーはもちろん、モーニングやワンプレートランチ、季節のスイーツなどもご好評いただいております</p>
+            </div>
+          </div>
+          <!-- / スライド02 -->
+          <!-- スライド03 -->
+          <div class="carousel-item">
+            <img class="img-fluid" src="img/slide_03.jpg" alt="店内写真">
+            <div class="carousel-caption d-none d-md-block">
+              <h2>Mr. M COFFEEの空間</h2>
+              <p>座り心地の良いソファと丁度良い高さのテーブル。くつろぎの空間を満喫してください。</p>
+            </div>
+          </div>
+          <!-- / スライド03 -->
+        </div>
+        <!-- / カルーセル内枠 -->
+        <!-- コントローラー -->
+        <a class="carousel-control-prev" href="#main_visual" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">前に戻る</span>
+        </a>
+        <a class="carousel-control-next" href="#main_visual" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">次に進む</span>
+        </a>
+        <!-- / コントローラー -->
+      </div>
+      <!-- / カルーセル外枠 -->
+    </div>
+  </div>
+  <!-- / メインビジュアル -->
+  <!-- コンテンツ01 -->
+  <div class="py-4">
+    <section id="news">
+      <div class="container">
+        <div class="row">
+          <!-- 左側カラム（画面幅md以上） -->
+          <div class="col-md-2">
+            <h3>News</h3>
+          </div>
+          <!-- 右側カラム（画面幅md以上） -->
+          <div class="col-md-10">
+            <dl class="row">
+              <dt class="col-md-3">2018年○月○日</dt>
+              <dd class="col-md-9">ランチクーポン配布中です</dd>
+              <dt class="col-md-3">2018年○月○日</dt>
+              <dd class="col-md-9">季節限定メニューを追加しました</dd>
+              <dt class="col-md-3">2018年○月○日</dt>
+              <dd class="col-md-9">新しい雑貨さん入荷しました</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- /コンテンツ01 -->
+  <!-- コンテンツ02 -->
+  <div class="py-4 bg-light">
+    <section id="about">
+      <div class="container">
+        <!-- 上段 -->
+        <div class="row mb-4">
+          <div class="col-md-8 mb-3">
+            <h3 class="mb-3">Mr. M COFFEEについて</h3>
+            <p>Mr. M COFFEE（ミスターエムコーヒー）は、店主が焙煎したこだわりのコーヒーを最高の空間とおもてなしで提供する自家焙煎のカフェです。店主が世界中のコーヒー豆を厳選し、コーヒー豆の種類にあわせ、心を込めて焙煎、抽出しております。また、女性に丁度良いボリュームのワンプレートランチ、季節のスィーツなどもご好評いただいております。</p>
+            <p>最高に美味しい一杯のコーヒーを、最高に心地よい空間で。美味しいコーヒーを飲みながら、ゆったりとした素敵な時間を過ごしに、ぜひMr. M COFFEEにお越しください。</p>
+            <a href="#" class="btn btn-info">メニューを見る</a>
+            <a href="#" class="btn btn-info">店舗情報を見る</a>
+          </div>
+          <div class="col-md-4">
+            <img src="img/about01.jpg" alt="店主が焙煎したこだわりのコーヒー" class="img-fluid"> </div>
+        </div>
+        <!-- /上段 -->
+        <!-- 下段 -->
+        <div class="row">
+          <div class="col-md-4">
+            <!-- カード01 -->
+            <div class="card mb-3">
+              <img src="img/about02-thumb.jpg" alt="" class="img-fluid">
+              <!-- カードの本文エリア -->
+              <div class="card-body d-flex justify-content-between">
+                <h4 class="card-title">くつろぎの空間</h4>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal01">
+                  詳しく見る
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <!-- カード02 -->
+            <div class="card mb-3">
+              <img src="img/about03-thumb.jpg" alt="" class="img-fluid">
+              <!-- カードの本文エリア -->
+              <div class="card-body d-flex justify-content-between">
+                <h4 class="card-title">雑貨コーナー</h4>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal02">
+                  詳しく見る
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <!-- カード03 -->
+            <div class="card mb-3">
+              <img src="img/about04-thumb.jpg" alt="" class="img-fluid">
+              <!-- カードの本文エリア -->
+              <div class="card-body d-flex justify-content-between">
+                <h4 class="card-title">キッズドリンク</h4>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal03">
+                  詳しく見る
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /下段 -->
+        <!-- モーダル -->
+        <!-- モーダル01 -->
+        <div class="modal fade" id="modal01" tabindex="-1" role="dialog" aria-labelledby="modal01-label" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modal01-label">くつろぎの空間</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p class="text-center">
+                  <img alt="#" src="img/about02.jpg" class="img-fluid">
+                </p>
+                <p>店主がこだわった家具たちです。座り心地の良いソファと丁度良い高さのテーブル。くつろぎの空間を満喫してください。</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- モーダル02 -->
+        <div class="modal fade" id="modal02" tabindex="-1" role="dialog" aria-labelledby="modal01-label" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modal02-label">雑貨コーナー</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p class="text-center">
+                  <img alt="#" src="img/about03.jpg" class="img-fluid">
+                </p>
+                <p>店内には作家さんの手作り雑貨を展示、販売しております。委託販売をご希望の作家さんは お問合せフォームより お問合せください。</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- モーダル03 -->
+        <div class="modal fade" id="modal03" tabindex="-1" role="dialog" aria-labelledby="modal01-label" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modal03-label">キッズドリンク</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p class="text-center">
+                  <img alt="#" src="img/about04.jpg" class="img-fluid">
+                </p>
+                <p>オレンジやアップル、好きなジュースを選んで自分でグラスに注ぐ、子どもたちに大人気のキッズドリンクコーナーです。</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- / モーダル -->
+      </div>
+    </section>
+  </div>
+  <!-- /コンテンツ02 -->
+  <!-- コンテンツ03 -->
+  <div class="py-4">
+    <section id="menu">
+      <div class="container">
+        <h3 class="mb-3">Menu</h3>
+        <p>カフェ Mr. M COFFEEのメニューです。掲載していない季節限定メニューはMr. M COFFEEの<a href="#">ブログ</a>にて紹介しています。</p>
+
+        <!-- タブ型ナビゲーション -->
+        <div class="nav nav-tabs" id="tab-menus" role="tablist">
+          <!-- タブ01 -->
+          <a class="nav-item nav-link active" id="tab-menu01" data-toggle="tab" href="#panel-menu01" role="tab" aria-controls="panel-menu01" aria-selected="true">コーヒー</a>
+          <!-- タブ02 -->
+          <a class="nav-item nav-link" id="tab-menu02" data-toggle="tab" href="#panel-menu02" role="tab" aria-controls="panel-menu02" aria-selected="false">モーニング</a>
+          <!-- タブ03 -->
+          <a class="nav-item nav-link" id="tab-menu03" data-toggle="tab" href="#panel-menu03" role="tab" aria-controls="panel-menu03" aria-selected="false">ランチ</a>
+          <!-- タブ04 -->
+          <a class="nav-item nav-link" id="tab-menu04" data-toggle="tab" href="#panel-menu04" role="tab" aria-controls="panel-menu04" aria-selected="false">ケーキ</a>
+        </div>
+        <!-- /タブ型ナビゲーション -->
+
+        <!-- タブパネル -->
+        <div class="tab-content" id="panel-menus">
+          <!-- パネル01 -->
+          <div class="tab-pane fade show active border border-top-0" id="panel-menu01" role="tabpanel" aria-labelledby="tab-menu01">
+            <div class="row p-3">
+              <div class="col-md-7 order-md-2">
+                <h4>COFFEE</h4>
+                <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <th>M ブレンド</th>
+                      <td>390円（税別）</td>
+                    </tr>
+                    <tr>
+                      <th>アイスコーヒー</th>
+                      <td>430円（税別）</td>
+                    </tr>
+                    <tr>
+                      <th>ブラジルシングル</th>
+                      <td>430円（税別）</td>
+                    </tr>
+                    <tr>
+                      <th>エスプレッソ</th>
+                      <td>300円（税別）</td>
+                    </tr>
+                    <tr>
+                      <th>カプチーノ</th>
+                      <td>430円（税別）</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-5">
+                <img src="img/coffee.jpg" alt="コーヒー" class="img-fluid">
+              </div>
+            </div>
+          </div>
+          <!-- パネル02 -->
+          <div class="tab-pane fade border border-top-0" id="panel-menu02" role="tabpanel" aria-labelledby="tab-menu02">
+            <div class="row p-3">
+              <div class="col-md-7 order-md-2">
+                <h4>MORNNING</h4>
+                <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <th>トーストセット</th>
+                      <td>450円（税別）</td>
+                    </tr>
+                    <tr>
+                      <th>トーストゆで卵セット</th>
+                      <td>500円（税別）</td>
+                    </tr>
+                    <tr>
+                      <th>フレンチトーストセット</th>
+                      <td>600円（税別）</td>
+                    </tr>
+                    <tr>
+                      <th>野菜たっぷりスープセット</th>
+                      <td>650円（税別）</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-5">
+                <img src="img/morning.jpg" alt="モーニング" class="img-fluid">
+              </div>
+            </div>
+          </div>
+          <!-- パネル03 -->
+          <div class="tab-pane fade border border-top-0" id="panel-menu03" role="tabpanel" aria-labelledby="tab-menu03">
+            <div class="row p-3">
+              <div class="col-md-7 order-md-2">
+                <h4>LUNCH</h4>
+                <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <th>ワンプレートランチ</th>
+                      <td>1,000円（税別）</td>
+                    </tr>
+                    <tr>
+                      <th>Mixサンド</th>
+                      <td>650円（税別）</td>
+                    </tr>
+                    <tr>
+                      <th>ハンバーグサンド</th>
+                      <td>750円（税別）</td>
+                    </tr>
+                    <tr>
+                      <th>野菜たっぷりスープ</th>
+                      <td>650円（税別）</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-5">
+                <img src="img/lunch.jpg" alt="ランチ" class="img-fluid">
+              </div>
+            </div>
+          </div>
+          <!-- パネル04 -->
+          <div class="tab-pane fade border border-top-0" id="panel-menu04" role="tabpanel" aria-labelledby="tab-menu04">
+            <div class="row p-3">
+              <div class="col-md-7 order-md-2">
+                <h4>CAKE</h4>
+                <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <th>シフォンケーキ</th>
+                      <td>400円（税別）</td>
+                    </tr>
+                    <tr>
+                      <th>チーズケーキ</th>
+                      <td>350円（税別）</td>
+                    </tr>
+                    <tr>
+                      <th>本日のケーキ</th>
+                      <td>400円（税別）～</td>
+                    </tr>
+                    <tr>
+                      <th>季節のパウンドケーキ</th>
+                      <td>400円（税別）～</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-5">
+                <img src="img/cake.jpg" alt="ケーキ" class="img-fluid">
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /タブパネル -->
+      </div>
+    </section>
+  </div>
+  <!-- /コンテンツ03 -->
+  <!-- コンテンツ04 -->
+  <div class="py-4 bg-light">
+    <section id="coupon">
+      <div class="container">
+        <h3 class="text-center mb-3">Coupon</h3>
+        <!-- カード -->
+        <div class="card text-center text-dark w-75 mx-auto">
+          <div class="card-header bg-success text-white">
+            Mr. M COFFEE ランチクーポン
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">食後のコーヒープラス100円にてご提供</h5>
+            <p class="card-text text-justify">ワンプレートランチ（限定数20食）ご注文のお客様に、プラス100円で食後のコーヒーをご提供。お会計の際に、このクーポン画面をスタッフに見せてください。</p>
+          </div>
+          <div class="card-footer bg-success text-white">
+            クーポンコード：HAPPYLUNCH
+          </div>
+        </div>
+        <!-- /カード -->
+      </div>
+    </section>
+  </div>
+  <!-- /コンテンツ04 -->
+  <!-- コンテンツ05 -->
+  <div class="py-4">
+    <section id="information">
+      <div class="container">
+        <h3 class="mb-3">Information</h3>
+        <p>カフェ Mr. M COFFEE（ミスターエムコーヒー）は、○○県の○○市の山の中にあります。大自然に囲まれて、こだわりのコーヒーを飲みながら、美味しい空気と美しい景色をご堪能ください。</p>
+        <div class="row">
+          <!-- 左側セクション -->
+          <div class="col-md-6">
+            <section id="shop">
+              <h4 class="mb-3">Shop</h4>
+              <!-- 店舗情報の表 -->
+              <table class="table table-hover">
+                <tbody>
+                  <tr>
+                    <th>店名</th>
+                    <td>Mr.M COFFEE</td>
+                  </tr>
+                  <tr>
+                    <th>住所</th>
+                    <td>〒000-0000 ○○県○○市○○町1-2-3</td>
+                  </tr>
+                  <tr>
+                    <th>電話番号</th>
+                    <td>000-000-0000</td>
+                  </tr>
+                  <tr>
+                    <th>営業時間</th>
+                    <td>8:00～18:00</td>
+                  </tr>
+                  <tr>
+                    <th>モーニング</th>
+                    <td>8:00～11:00</td>
+                  </tr>
+                  <tr>
+                    <th>ランチタイム</th>
+                    <td>11:30～14:00</td>
+                  </tr>
+                  <tr>
+                    <th>ラストオーダー</th>
+                    <td>17:30</td>
+                  </tr>
+                  <tr>
+                    <th>定休日</th>
+                    <td>水曜日、不定休</td>
+                  </tr>
+                  <tr>
+                    <th> クレジットカード</th>
+                    <td>利用不可</td>
+                  </tr>
+                  <tr>
+                    <th>禁煙席</th>
+                    <td>喫煙席あり</td>
+                  </tr>
+                  <tr>
+                    <th>駐車場</th>
+                    <td>駐車場あり</td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- /店舗情報の表 -->
+            </section>
+          </div>
+          <!-- /左側セクション -->
+          <!-- 右側セクション -->
+          <div class="col-md-6">
+            <section id="access">
+              <h4 class="mb-3">Access</h4>
+              <!-- アクセスマップ -->
+              <div class="embed-responsive embed-responsive-4by3">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3240.3328068554265!2d139.735574!3d35.693427!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188c5e412329bb%3A0x7db38e6732953dc!2z44CSMTYyLTA4NDYg5p2x5Lqs6YO95paw5a6_5Yy65biC6LC35bem5YaF55S677yS77yR4oiS77yR77yT!5e0!3m2!1sja!2sjp!4v1518974506558" width="800" height="600" frameborder="0" style="border:0" allowfullscreen></iframe>
+              </div>
+              <!-- /アクセスマップ -->
+              <p>○○駅から徒歩12分（950m）、駐車場あり</p>
+            </section>
+          </div>
+          <!-- /右側セクション -->
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- /コンテンツ05 -->
+</main>
+<!-- /メイン -->
+<!-- フッター -->
+<footer class="py-4">
+
+</footer>
+<!-- /フッター -->
+<script src="js/jquery-3.3.1.slim.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

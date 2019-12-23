@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<title>フォーム</title>
+<style>
+/* 本文に関連のないスタイル */
+body {
+  padding-top: 2rem;
+}
+.container {
+  margin-bottom: 2rem;
+}
+</style>
+</head>
+<body>
+<h1 class="text-center mb-5">コンポーネント：フォーム</h1>
+<h2 class="text-center mb-4">カスタムフォームのチェックボックスに不確定（indeterminate）を指定する</h2>
+<div class="container">
+  <form>
+    <!-- カスタムフォームのチェックボックス -->
+    <div class="custom-control custom-checkbox mb-3">
+      <input type="checkbox" class="custom-control-input" id="customCheck1" checked>
+      <label class="custom-control-label" for="customCheck1">選択済み</label>
+    </div>
+    <div class="custom-control custom-checkbox mb-3">
+      <input type="checkbox" class="custom-control-input" id="customCheck2" unchecked>
+      <label class="custom-control-label" for="customCheck2">未選択</label>
+    </div>
+    <div class="custom-control custom-checkbox mb-3">
+      <input type="checkbox" class="custom-control-input indeterminate-box" id="customCheck3">
+      <label class="custom-control-label" for="customCheck3">不確定</label>
+    </div>
+  </form>
+</div>
+<script src="js/jquery-3.3.1.slim.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<!-- 不確定の表示に使用するjQuery -->
+<script>
+  $('.indeterminate-box').prop('indeterminate', true)
+</script>
+</body>
+</html>

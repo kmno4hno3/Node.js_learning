@@ -1,0 +1,6 @@
+<% if(val != ''){ %>
+<% var obj = JSON.parse(val); %>        <!--引数の値をjsのオブジェクトに変換して、値を取り出す -->
+<tr>
+    <th style="width:100px;"><%= obj.id %></th><td><%= obj.msg %></td>
+</tr>
+<% } %>
