@@ -5,9 +5,11 @@ var path = require('path');                   //ファイルパス本体
 var cookieParser = require('cookie-parser');  //HTTPリクエストのログ出力に関する
 var logger = require('morgan');               //クッキーのパース(値変換処理)に関する
 
+
 //ルート用スクリプトのロード
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var hello = require('./routes/hello');
 
 //Expressのオブジェクトを作成し、基本設定を行う
 var app = express();
@@ -27,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //第一引数に割り当てるパスを指定、第二引数に関数
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/hello', hello);
 
 //エラー発生時の処理
 // catch 404 and forward to error handler
