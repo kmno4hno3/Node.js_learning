@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('ex-gen-app:server');
-var http = require('http');
+var app = require('../app');                          //app.jsをロード
+var debug = require('debug')('ex-gen-app:server');    //ex-gen-app:serverモジュールをロード
+var http = require('http');                           //httpモジュールをロード
 
 /**
  * Get port from environment and store in Express.
@@ -19,15 +19,15 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+var server = http.createServer(app);            //createServerでサーバーを作り、appを実行する
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+server.listen(port);                  //待ち受け状態にする
+server.on('error', onError);          //onを使ってイベントの処理を設定(エラー時)
+server.on('listening', onListening);  //onを使ってイベントの処理を設定(待ち受け状態の処理)
 
 /**
  * Normalize a port into a number, string, or false.
