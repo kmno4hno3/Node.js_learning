@@ -1,28 +1,34 @@
 //モジュールのロード
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+var createError = require('http-errors');     //Expressnエラーに関する
+var express = require('express');             //Express本体
+var path = require('path');                   //ファイルパス本体
+var cookieParser = require('cookie-parser');  //HTTPリクエストのログ出力に関する
+var logger = require('morgan');               //クッキーのパース(値変換処理)に関する
 
+//ルート用スクリプトのロード
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+//Expressのオブジェクトを作成し、基本設定を行う
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));    //テンプレートファイル保管場所の設定
+app.set('view engine', 'ejs');                      //テンプレートエンジンの種類の設定
 
+//アプリケーション作成に必要な処理の組み込み(読み込んだモジュールの機能を呼び出す)
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//アクセスのためのapp.use作成(特定のアドレスにアクセスした時の処理)
+//第一引数に割り当てるパスを指定、第二引数に関数
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+//エラー発生時の処理
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -39,4 +45,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+//exports:外部からのアクセスに関数、これによりオブジェクトが外部からアクセスできるようになる
 module.exports = app;
