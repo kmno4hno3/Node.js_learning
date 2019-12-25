@@ -4,6 +4,7 @@ var express = require('express');             //Express本体
 var path = require('path');                   //ファイルパス本体
 var cookieParser = require('cookie-parser');  //HTTPリクエストのログ出力に関する
 var logger = require('morgan');               //クッキーのパース(値変換処理)に関する
+var session = require('express-session');
 
 
 //ルート用スクリプトのロード
@@ -24,6 +25,14 @@ app.use(express.json());                            //Body ParserでJSONエン�
 app.use(express.urlencoded({ extended: false }));   //Body ParserでURLエンコーディングをONにする
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+var session_opt = {
+  secret: 'keyboard cat',               //秘密キーとなるテキスト、ハッシュと呼ばれる計算する時のキーとなる(デフォルトはkeyboard catだがそれぞれ書き換える)
+  resave: false,                        //セッションストアに強制的に値を保存
+  saveUninitialized: false,             //初期化されていない値を強制的に保存
+  cookie: { maxAge: 60 * 60 * 1000 }    //セッションIDを保管するクッキーに関する設定(ここでは、maxAgeという値でクッキーの保管時間を1時間に設定)
+};
+app.use(session(session_opt));
 
 //アクセスのためのapp.use作成(特定のアドレスにアクセスした時の処理)
 //第一引数に割り当てるパスを指定、第二引数に関数
