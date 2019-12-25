@@ -11,6 +11,7 @@ var session = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var hello = require('./routes/hello');
+var ajax = require('./routes/ajax');
 
 //Expressのオブジェクトを作成し、基本設定を行う
 var app = express();
@@ -25,6 +26,7 @@ app.use(express.json());                            //Body ParserでJSONエン�
 app.use(express.urlencoded({ extended: false }));   //Body ParserでURLエンコーディングをONにする
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/ajax', ajax);                 //requireでロードしたajax.jsを/ajaxに割り当てる
 
 var session_opt = {
   secret: 'keyboard cat',               //秘密キーとなるテキスト、ハッシュと呼ばれる計算する時のキーとなる(デフォルトはkeyboard catだがそれぞれ書き換える)
