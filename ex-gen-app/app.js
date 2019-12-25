@@ -20,8 +20,8 @@ app.set('view engine', 'ejs');                      //テンプレートエン�
 
 //アプリケーション作成に必要な処理の組み込み(読み込んだモジュールの機能を呼び出す)
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json());                            //Body ParserでJSONエンコーディングをONにする
+app.use(express.urlencoded({ extended: false }));   //Body ParserでURLエンコーディングをONにする
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
