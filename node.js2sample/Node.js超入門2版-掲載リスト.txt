@@ -1,0 +1,4047 @@
+﻿単行本「Node.js超入門 第２版」
+
+
+掲載リスト
+
+
+
+
+リスト2-1
+const http = require('http');
+
+
+var server = http.createServer(
+    (request,response)=>{
+        response.end('Hello Node.js!');
+    }
+);
+server.listen(3000);
+
+
+
+
+リスト2-2
+const http = require('http');
+
+
+var server = http.createServer(
+    (request,response)=>{
+        response.end('<html><body><h1>Hello</h1><p>Welcome to Node.js</p></body></html>');
+    }
+);
+
+
+server.listen(3000);
+
+
+
+
+リスト2-3
+const http = require('http');
+
+
+var server = http.createServer(
+    (request,response)=>{
+        response.setHeader('Content-Type', 'text/html');
+        response.write('<!DOCTYPE html><html lang="ja">');
+        response.write('<head><meta charset="utf-8">');
+        response.write('<title>Hello</title></head>');
+        response.write('<body><h1>Hello Node.js!</h1>');
+        response.write('<p>This is Node.js sample page.</p>');
+        response.write('<p>これは、Node.jsのサンプルページです。</p>', 'utf8');
+        response.write('</body></html>');
+        response.end();
+    }
+);
+
+
+server.listen(3000);
+console.log('Server start!');
+
+
+
+
+リスト2-4
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta http-equiv="content-type" 
+        content="text/html; charset=UTF-8">
+    <title>Index</title>
+</head>
+
+
+<body>
+    <h1>Index</h1>
+    <p>これは、Indexページです。</p>
+</body>
+
+
+</html>
+
+
+
+
+リスト2-5
+const http = require('http');
+const fs = require('fs');
+
+
+var server = http.createServer(
+    (request,response)=>{
+        fs.readFile('./index.html', 'UTF-8', 
+        (error, data)=>{
+            response.writeHead(200, {'Content-Type': 'text/html'});
+            response.write(data);
+            response.end();
+        });
+    }
+);
+
+
+server.listen(3000);
+console.log('Server start!');
+
+
+
+
+リスト2-6
+const http = require('http');
+const fs = require('fs');
+
+
+var server = http.createServer(getFromClient);
+
+
+server.listen(3000);
+console.log('Server start!');
+
+
+// ここまでメインプログラム========
+
+
+// createServerの処理
+function getFromClient(req,res){
+    request = req;
+    response = res;
+    fs.readFile('./index.html', 'UTF-8', 
+        (error, data)=>{
+            response.writeHead(200, {'Content-Type': 'text/html'});
+            response.write(data);
+            response.end();
+        }
+    );
+}
+
+
+
+
+リスト2-7
+const http = require('http');
+const fs = require('fs');
+var request;
+var response;
+
+
+var server = http.createServer(getFromClient);
+
+
+server.listen(3000);
+console.log('Server start!');
+
+
+// ここまでメインプログラム========
+
+
+// createServerの処理
+function getFromClient(req,res){
+    request = req;
+    response = res;
+    fs.readFile('./index.html', 'UTF-8', writeToResponse);
+}
+
+
+// readFile完了後の処理
+function writeToResponse(error, data){
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.write(data);
+    response.end();
+}
+
+
+
+
+リスト2-8
+<body>
+    <h1>dummy_title</h1>
+    <p>dummy_content</p>
+</body>
+
+
+
+
+リスト2-9
+const http = require('http');
+const fs = require('fs');
+
+
+var server = http.createServer(getFromClient);
+
+
+server.listen(3000);
+console.log('Server start!');
+
+
+// ここまでメインプログラム==========
+
+
+// createServerの処理
+function getFromClient(request, response){
+    fs.readFile('./index.html', 'UTF-8', 
+        (error, data)=>{
+            var content = data.
+                replace(/dummy_title/g, 'タイトルです').
+                replace(/dummy_content/g, 'これがコンテンツです。');
+            
+            response.writeHead(200, {'Content-Type': 'text/html'});
+            response.write(content);
+            response.end();
+        }
+    );
+}
+
+
+
+
+リスト2-10
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta http-equiv="content-type"
+        content="text/html; charset=UTF-8">
+    <title>Index</title>
+    <style>
+    h1 { font-size: 60pt; color:#eee;
+        text-align:right; margin:0px; }
+    body { font-size: 14pt; color: #999;
+        margin:5px;}
+    </style>
+</head>
+<body>
+    <head>
+        <h1>Index</h1>
+    </head>
+    <div role="main">
+        <p>This is Index Page.</p>
+        <p>これは、EJSを使ったWebページです。</p>
+    </div>
+</body>
+
+
+</html>
+
+
+
+
+リスト2-11
+const http = require('http');
+const fs = require('fs');
+const ejs = require('ejs');
+ 
+const index_page = fs.readFileSync('./index.ejs', 'utf8');
+
+
+var server = http.createServer(getFromClient);
+
+
+server.listen(3000);
+console.log('Server start!');
+
+
+// ここまでメインプログラム==========
+
+
+// createServerの処理
+function getFromClient(request, response){
+    var content = ejs.render(index_page);
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.write(content);
+    response.end();
+}
+
+
+
+
+リスト2-12
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta http-equiv="content-type"
+        content="text/html; charset=UTF-8">
+    <title><%=title %></title>
+    <style>
+    h1 { font-size: 60pt; color:#eee;
+        text-align:right; margin:0px; }
+    body { font-size: 14pt; color: #999;
+        margin:5px;}
+    </style>
+</head>
+<body>
+    <head>
+        <h1><%=title %></h1>
+    </head>
+    <div role="main">
+        <p><%=content %></p>
+    </div>
+</body>
+
+
+</html>
+
+
+
+
+リスト2-13
+function getFromClient(request, response){
+    var content = ejs.render(index_page, {
+        title:"Index",
+        content:"これはテンプレートを使ったサンプルページです。",
+    });
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.write(content);
+    response.end();
+}
+
+
+
+
+リスト2-14
+h1 {
+    font-size: 60pt;
+    color:#eee;
+    text-align:right;
+    margin:0px;
+}
+body {
+    font-size: 12pt;
+    color: #999;
+    margin:5px;
+}
+p {
+    font-size: 14pt;
+    margin: 0px 20px;
+}
+
+
+
+
+リスト2-15
+<link type="text/css" href="./style.css" rel="stylesheet">
+
+
+
+
+リスト2-16
+const http = require('http');
+const fs = require('fs');
+const ejs = require('ejs');
+const url = require('url');
+
+
+const index_page = fs.readFileSync('./index.ejs', 'utf8');
+const style_css = fs.readFileSync('./style.css', 'utf8');
+
+
+var server = http.createServer(getFromClient);
+
+
+server.listen(3000);
+console.log('Server start!');
+
+
+// ここまでメインプログラム==========
+
+
+// createServerの処理
+function getFromClient(request, response){
+    var url_parts = url.parse(request.url);
+    switch (url_parts.pathname) {
+
+
+        case '/':
+            var content = ejs.render(index_page, {
+                title:"Index",
+                content:"これはテンプレートを使ったサンプルページです。",
+            });
+            response.writeHead(200, {'Content-Type': 'text/html'});
+            response.write(content);
+            response.end();
+            break;
+
+
+        case '/style.css':
+            response.writeHead(200, {'Content-Type': 'text/css'});
+            response.write(style_css);
+            response.end();
+            break;
+
+
+        default:
+            response.writeHead(200, {'Content-Type': 'text/plain'});
+            response.end('no page...');
+            break;
+    }
+}
+
+
+
+
+リスト2-17
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta http-equiv="content-type"
+        content="text/html; charset=UTF-8">
+    <title><%=title %></title>
+    <link type="text/css" href="./style.css" rel="stylesheet">
+</head>
+<body>
+    <head>
+        <h1><%=title %></h1>
+    </head>
+    <div role="main">
+        <p><%=content %></p>
+    </div>
+</body>
+
+
+</html>
+
+
+
+
+リスト2-18
+<body>
+    <head>
+        <h1><%=title %></h1>
+    </head>
+    <div role="main">
+        <p><%=content %></p>
+        <p><a href="/other">Other Pageに移動 &gt;&gt;</a></p>
+    </div>
+</body>
+
+
+
+
+リスト2-19
+const http = require('http');
+const fs = require('fs');
+const ejs = require('ejs');
+const url = require('url');
+
+
+const index_page = fs.readFileSync('./index.ejs', 'utf8');
+const other_page = fs.readFileSync('./other.ejs', 'utf8'); //★追加
+const style_css = fs.readFileSync('./style.css', 'utf8');
+
+
+var server = http.createServer(getFromClient);
+
+
+server.listen(3000);
+console.log('Server start!');
+
+
+// ここまでメインプログラム==========
+
+
+// createServerの処理
+function getFromClient(request, response){
+
+
+    var url_parts = url.parse(request.url);
+    switch (url_parts.pathname) {
+         
+        case '/':
+            var content = ejs.render(index_page, {
+                title:"Index",
+                content:"これはIndexページです。",
+            });
+            response.writeHead(200, {'Content-Type': 'text/html'});
+            response.write(content);
+            response.end();
+            break;
+
+
+        case '/other': //★追加
+             var content = ejs.render(other_page, {
+                title:"Other",
+                content:"これは新しく用意したページです。",
+            });
+            response.writeHead(200, {'Content-Type': 'text/html'});
+            response.write(content);
+            response.end();
+            break;
+
+
+        case '/style.css':
+            response.writeHead(200, {'Content-Type': 'text/css'});
+            response.write(style_css);
+            response.end();
+            break;
+
+
+        default:
+            response.writeHead(200, {'Content-Type': 'text/plain'});
+            response.end('no page...');
+            break;
+    }
+}
+
+
+
+
+リスト3-1
+const http = require('http');
+const fs = require('fs');
+const ejs = require('ejs');
+const url = require('url');
+
+
+const index_page = fs.readFileSync('./index.ejs', 'utf8');
+const other_page = fs.readFileSync('./other.ejs', 'utf8');
+const style_css = fs.readFileSync('./style.css', 'utf8');
+
+
+var server = http.createServer(getFromClient);
+
+
+server.listen(3000);
+console.log('Server start!');
+
+
+// ここまでメインプログラム==========
+
+
+// createServerの処理
+function getFromClient(request, response){
+
+
+    var url_parts = url.parse(request.url, true); //★trueにする!
+    switch (url_parts.pathname) {
+         
+        case '/':
+            var content = "これはIndexページです。"
+            var query = url_parts.query;
+            if (query.msg != undefined){
+                var query_obj = 
+                content += 'あなたは、「' + query.msg + '」と送りました。';
+            }
+            var content = ejs.render(index_page, {
+                title:"Index",
+                content:content,
+            });
+            response.writeHead(200, {'Content-Type': 'text/html'});
+            response.write(content);
+            response.end();
+            break;
+
+
+        case '/style.css':
+            response.writeHead(200, {'Content-Type': 'text/css'});
+            response.write(style_css);
+            response.end();
+            break;
+
+
+        default:
+            response.writeHead(200, {'Content-Type': 'text/plain'});
+            response.end('no page...');
+            break;
+    }
+}
+
+
+
+
+リスト3-2
+<body>
+    <head>
+        <h1><%=title %></h1>
+    </head>
+    <div role="main">
+        <p><%=content %></p>
+        <form method="post" action="/other">
+            <p>
+                <input type="text" name="msg">
+                <input type="submit" value="Click">
+            </p>
+        </form>
+    </div>
+</body>
+
+
+
+
+リスト3-3
+const http = require('http');
+const fs = require('fs');
+const ejs = require('ejs');
+const url = require('url');
+const qs = require('querystring'); //★追加
+
+
+const index_page = fs.readFileSync('./index.ejs', 'utf8');
+const other_page = fs.readFileSync('./other.ejs', 'utf8');
+const style_css = fs.readFileSync('./style.css', 'utf8');
+
+
+var server = http.createServer(getFromClient);
+
+
+server.listen(3000);
+console.log('Server start!');
+
+
+// ここまでメインプログラム==========
+
+
+// createServerの処理
+function getFromClient(request, response){
+    var url_parts = url.parse(request.url, true); //★trueに
+
+
+    switch (url_parts.pathname) {
+         
+        case '/':
+            response_index(request, response); //★修正
+            break;
+
+
+        case '/other':
+            response_other(request, response); //★修正
+            break;
+
+
+        case '/style.css':
+            response.writeHead(200, {'Content-Type': 'text/css'});
+            response.write(style_css);
+            response.end();
+            break;
+
+
+        default:
+            response.writeHead(200, {'Content-Type': 'text/plain'});
+            response.end('no page...');
+            break;
+    }
+}
+
+
+// ★indexのアクセス処理
+function response_index(request, response){
+    var msg = "これはIndexページです。"
+    var content = ejs.render(index_page, {
+        title:"Index",
+        content:msg,
+    });
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.write(content);
+    response.end();
+}
+
+
+// ★otherのアクセス処理
+function response_other(request, response){
+    var msg = "これはOtherページです。"
+
+
+    // POSTアクセス時の処理
+    if (request.method == 'POST'){
+        var body='';
+
+
+        // データ受信のイベント処理
+        request.on('data', (data) => {
+            body +=data;
+        });
+
+
+        // データ受信終了のイベント処理
+        request.on('end',() => {
+            var post_data =  qs.parse(body); // ★データのパース
+            msg += 'あなたは、「' + post_data.msg + '」と書きました。';
+            var content = ejs.render(other_page, {
+                title:"Other",
+                content:msg,
+            });
+            response.writeHead(200, {'Content-Type': 'text/html'});
+            response.write(content);
+            response.end();
+        });
+
+
+    // GETアクセス時の処理
+    } else {
+        var msg = "ページがありません。"
+        var content = ejs.render(other_page, {
+            title:"Other",
+            content:msg,
+        });
+        response.writeHead(200, {'Content-Type': 'text/html'});
+        response.write(content);
+        response.end();
+    }
+}
+
+
+
+
+リスト3-4
+// 追加するデータ用変数
+var data = {
+    'Taro':'09-999-999',
+    'Hanako':'080-888-888',
+    'Sachiko':'070-777-777',
+    'Ichiro':'060-666-666'
+};
+
+
+// indexのアクセス処理
+function response_index(request, response){
+    var msg = "これはIndexページです。"
+    var content = ejs.render(index_page, {
+        title:"Index",
+        content:msg,
+        data:data,
+    });
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.write(content);
+    response.end();
+}
+
+
+
+
+リスト3-5
+table {
+    margin: 20px;
+}
+table tr th {
+    background-color: #999;
+    color: #fff;
+    text-align: center;
+    padding: 3px 10px;
+}
+table tr td {
+    background-color: #eee;
+    color: #666;
+    text-align: left;
+    padding: 3px 10px;
+}
+
+
+
+
+リスト3-6
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta http-equiv="content-type"
+        content="text/html; charset=UTF-8">
+    <title><%=title %></title>
+    <link type="text/css" href="./style.css" rel="stylesheet">
+</head>
+<body>
+    <head>
+        <h1><%=title %></h1>
+    </head>
+    <div role="main">
+        <p><%=content %></p>
+        <p><table>
+            <% for(var key in data) { %>
+                <tr>
+                <th><%= key %></th>
+                <td><%= data[key] %></td>
+                </tr>
+            <% } %>
+        </table></p>
+    </div>
+</body>
+
+
+</html>
+
+
+
+
+リスト3-7
+<tr>
+    <th><%= key %></th>
+    <td><%= val[0] %></td>
+</tr>
+
+
+
+
+リスト3-8
+<body>
+    <head>
+        <h1><%=title %></h1>
+    </head>
+    <div role="main">
+        <p><%=content %></p>
+        <p>
+            <table>
+            <% for(var key in data) { %>
+                <%- include('data_item', {key:key, val:[data[key]]}) %>
+            <% } %>
+            </table>
+        </p>        
+    </div>
+</body>
+
+
+
+
+リスト3-9
+function response_index(request, response){
+    var msg = "これはIndexページです。"
+    var content = ejs.render(index_page, {
+        title:"Index",
+        content:msg,
+        data:data,
+        filename:'data_item' //★追記
+    });
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.write(content);
+    response.end();
+}
+
+
+
+
+リスト3-10
+<tr>
+    <table>
+    <tr><th><%= key %></th></tr>
+    <% for(var i in val){ %>
+    <tr><td><%= val[i] %></td></tr>
+    <% } %>
+    </table>
+</tr>
+
+
+
+
+リスト3-11
+var data2 = {
+    'Taro':['taro@yamada', '09-999-999', 'Tokyo'],
+    'Hanako':['hanako@flower', '080-888-888', 'Yokohama'],
+    'Sachiko':['sachi@happy', '070-777-777', 'Nagoya'],
+    'Ichiro':['ichi@baseball', '060-666-666', 'USA'],
+}
+
+
+// otherのアクセス処理
+function response_other(request, response){
+var msg = "これはOtherページです。"
+    var content = ejs.render(other_page, {
+        title:"Other",
+        content:msg,
+        data:data2,
+        filename:'data_item'
+    });
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.write(content);
+}
+
+
+
+
+リスト3-12
+<body>
+    <head>
+        <h1><%=title %></h1>
+    </head>
+    <div role="main">
+        <p><table>
+            <% for(var key in data) { %>
+                <%- include('data_item', {key:key, val:data[key]}) %>
+            <% } %>
+        </table></p>
+    </div>
+</body>
+
+
+
+
+リスト3-13
+<body>
+    <head>
+        <h1><%=title %></h1>
+    </head>
+    <div role="main">
+        <p><%=content %></p>
+        <p><table style="width:400px;">
+            <tr><th>伝言です！</th></tr>
+            <tr><td><%=data.msg %></td></tr>
+        </table></p>
+        <p>
+            <form method="post" action="/">
+            MESSAGE <input type="text" name="msg">
+            <input type="submit" value="送信">
+        </p>
+    </div>
+</body>
+
+
+
+
+リスト3-14
+var data = {msg:'no message...'};
+
+
+function response_index(request, response){
+    // POSTアクセス時の処理
+    if (request.method == 'POST'){
+        var body='';
+
+
+        // データ受信のイベント処理
+        request.on('data', (data) => {
+            body +=data;
+        });
+
+
+        // データ受信終了のイベント処理
+        request.on('end',() => {
+            data = qs.parse(body); // ★データのパース
+            write_index(request, response);
+        });
+    } else {
+        write_index(request, response);
+    }
+}
+
+
+// indexの表示の作成
+function write_index(request, response) {
+    var msg = "※伝言を表示します。"
+    var content = ejs.render(index_page, {
+        title:"Index",
+        content:msg,
+        data:data,
+    });
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.write(content);
+    response.end();
+}
+
+
+
+
+リスト3-15
+<body>
+    <head>
+        <h1><%=title %></h1>
+    </head>
+    <div role="main">
+        <p><%=content %></p>
+        <p><table style="width:400px;">
+            <tr><th>伝言です！</th></tr>
+            <tr><td><%=data.msg %></td></tr>
+        </table></p>
+        <p>your last message:<%= cookie_data %></p>
+        <form method="post" action="/">
+        <p>MESSAGE <input type="text" name="msg">
+        <input type="submit" value="送信"></p>
+    </div>
+</body>
+
+
+
+
+リスト3-16
+// データ
+var data = {msg:'no message...'};
+
+
+// indexのアクセス処理
+function response_index(request, response){
+    // POSTアクセス時の処理
+    if (request.method == 'POST'){
+        var body='';
+
+
+        // データ受信のイベント処理
+        request.on('data', (data) => {
+            body +=data;
+        });
+
+
+        // データ受信終了のイベント処理
+        request.on('end',() => {
+            data = qs.parse(body);
+            //★クッキーの保存
+            setCookie('msg',data.msg, response);
+            write_index(request, response);
+        });
+    } else {
+        write_index(request, response);
+    }
+}
+
+
+// indexのページ作成
+function write_index(request, response) {
+    var msg = "※伝言を表示します。"
+    var cookie_data = getCookie('msg', request);
+    var content = ejs.render(index_page, {
+        title:"Index",
+        content:msg,
+        data:data,
+        cookie_data:cookie_data,
+    });
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.write(content);
+    response.end();
+}
+
+
+// クッキーの値を設定
+function setCookie(key, value, response) {
+    var cookie = escape(value);
+    response.setHeader('Set-Cookie',[key + '=' + cookie]);
+}
+// クッキーの値を取得
+function getCookie(key, request) {
+    var cookie_data = request.headers.cookie != undefined ? 
+        request.headers.cookie : '';
+    var data = cookie_data.split(';');
+    for(var i in data){
+        if (data[i].trim().startsWith(key + '=')){
+             var result = data[i].trim().substring(key.length + 1);
+             return unescape(result);
+        }
+    }
+    return '';
+}
+
+
+リスト3-17
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta http-equiv="content-type"
+        content="text/html; charset=UTF-8">
+    <title>ミニ掲示板</title>
+    <link type="text/css" href="./style.css" rel="stylesheet">
+    <script>
+    function init(){
+        var id = localStorage.getItem('id');
+        if (id == null){
+            location.href = './login';
+        }
+        document.querySelector('#id').textContent = 'ID:' + id;
+        document.querySelector('#id_input').value = id;
+    }
+    </script>
+</head>
+
+
+<body onload="init();">
+    <head>
+        <h1>掲示板</h1>
+    </head>
+    <div role="main">
+        <p>※メッセージは最大10個まで保管されます。</p>
+        <form method="post" action="/">
+            <p><span id="id"></span>
+            <input type="hidden" id="id_input" name="id" value=""><p>
+            <p><input type="text" name="msg">
+            <input type="submit" value="送信"></p>
+        </form>
+        <hr>
+        <p><table style="width:85%;">
+            <% for(var i in data) { %>
+                <%- include('data_item', {val:data[i]}) %>
+            <% } %>
+        </table></p>
+    </div>
+</body>
+
+
+</html>
+
+
+
+
+リスト3-18
+<% if (val != ''){ %>
+<% var obj = JSON.parse(val); %>
+<tr>
+   <th style="width:100px;"><%= obj.id %></th><td><%= obj.msg %></td>
+</tr>
+<% } %>
+
+
+
+
+リスト3-19
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta http-equiv="content-type"
+        content="text/html; charset=UTF-8">
+    <title>LOGIN</title>
+    <link type="text/css" href="./style.css" rel="stylesheet">
+    <script>
+    function setId(){
+        var id = document.querySelector('#id_input').value;
+        localStorage.setItem('id', id);
+        location.href = '/';
+    }
+    </script>
+</head>
+<body>
+    <head>
+        <h1>LOGIN</h1>
+    </head>
+    <div role="main">
+        <p>あなたのログインネームを入力下さい。</p>
+        <p><input type="text" id="id_input">
+            <button onclick="setId();">送信</buttonp>
+    </div>
+</body>
+
+
+</html>
+
+
+
+
+リスト3-20
+const http = require('http');
+const fs = require('fs');
+const ejs = require('ejs');
+const url = require('url');
+const qs = require('querystring');
+
+
+const index_page = fs.readFileSync('./index.ejs', 'utf8');
+const login_page = fs.readFileSync('./login.ejs', 'utf8');
+const style_css = fs.readFileSync('./style.css', 'utf8');
+
+
+const max_num = 10; // 最大保管数
+const filename = 'mydata.txt'; // データファイル名
+var message_data; // ★データ
+readFromFile(filename);
+
+
+var server = http.createServer(getFromClient);
+
+
+server.listen(3000);
+console.log('Server start!');
+
+
+// ここまでメインプログラム==========
+
+
+// createServerの処理
+function getFromClient(request, response){
+
+
+    var url_parts = url.parse(request.url, true);
+    switch (url_parts.pathname) {
+         
+        case '/': // トップページ（掲示板）
+            response_index(request, response);
+            break;
+
+
+         case '/login': // ログインページ
+            response_login(request, response);
+            break;
+
+
+       case '/style.css':
+            response.writeHead(200, {'Content-Type': 'text/css'});
+            response.write(style_css);
+            response.end();
+            break;
+
+
+        default:
+            response.writeHead(200, {'Content-Type': 'text/plain'});
+            response.end('no page...');
+            break;
+    }
+}
+
+
+// loginのアクセス処理
+function response_login(request, response){
+    var content = ejs.render(login_page, {});
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.write(content);
+    response.end();
+}
+
+
+// indexのアクセス処理
+function response_index(request, response){
+    // POSTアクセス時の処理
+    if (request.method == 'POST'){
+        var body='';
+
+
+        // データ受信のイベント処理
+        request.on('data', function (data) {
+            body +=data;
+        });
+
+
+        // データ受信終了のイベント処理
+        request.on('end', function(){
+            data = qs.parse(body);
+            addToData(data.id, data.msg, filename, request);
+            write_index(request, response);
+        });
+    } else {
+        write_index(request, response);
+    }
+}
+
+
+// indexのページ作成
+function write_index(request, response) {
+    var msg = "※何かメッセージを書いて下さい。";
+    var content = ejs.render(index_page, {
+        title:'Index',
+        content:msg,
+        data:message_data,
+        filename:'data_item',
+    });
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.write(content);
+    response.end();
+}
+
+
+// テキストファイルをロード
+function readFromFile(fname) {
+    fs.readFile(fname, 'utf8', (err, data) => {
+        message_data = data.split('\n');
+    })
+}
+
+
+// データを更新
+function addToData(id, msg, fname, request) {
+    var obj = {'id': id, 'msg': msg};
+    var obj_str = JSON.stringify(obj);
+    console.log('add data: ' + obj_str);
+    message_data.unshift(obj_str);
+    if (message_data.length > max_num){
+        message_data.pop();
+    }
+    saveToFile(fname);
+}
+
+
+// データを保存
+function saveToFile(fname) {
+    var data_str = message_data.join('\n');
+    fs.writeFile(fname, data_str, (err) => {
+        if (err) { throw err; }
+     });
+}
+
+
+
+
+リスト4-1
+var express = require('express')
+var app = express()
+
+
+app.get('/', (req, res) => {
+  res.send('Welcome to Express!')
+})
+
+
+app.listen(3000, () => {
+  console.log('Start server port:3000')
+})
+
+
+
+
+リスト4-4
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta http-equiv="content-type"
+        content="text/html; charset=UTF-8">
+    <title><%=title %></title>
+    <link type="text/css" href="./style.css" rel="stylesheet">
+</head>
+
+
+<body>
+    <head>
+        <h1><%=title %></h1>
+    </head>
+    <div role="main">
+        <p><%-content %></p>
+    </div>
+</body>
+
+
+</html>
+
+
+
+
+リスト4-5
+var express = require('express');
+var ejs = require("ejs"); //★追加
+  
+var app = express();
+  
+app.engine('ejs',ejs.renderFile); //★追加
+  
+app.get("/",(req, res) => {
+    // index.ejsをレンダリングする
+    res.render('index.ejs', 
+        {title: 'Index' , 
+            content: 'This is Express-app Top page!'});
+});
+
+
+var server = app.listen(3000,() => {
+    console.log('Server is running!');
+})
+
+
+
+
+リスト4-6
+h1 {
+    font-size: 128pt;
+    font-weight: bold;
+    color:#f0f0f0;
+    text-align:center;
+    letter-spacing:-10px;
+    margin:-50px 0px -140px 0px;
+}
+body {
+    font-size: 12pt;
+    color: #999;
+    margin:5px;
+}
+p {
+    font-size: 14pt;
+    line-height:200%;
+    margin: 0px 20px;
+}
+
+
+
+
+リスト4-7
+var express = require('express');
+var ejs = require("ejs");
+  
+var app = express();
+  
+app.engine('ejs',ejs.renderFile);
+
+
+app.use(express.static('public')); //★追記
+  
+app.get("/",(req, res) => {
+    var msg = 'This is Express Page!<br>' 
+        + 'これは、スタイルシートを利用した例です。';
+    res.render('index.ejs', 
+        {title: 'Index', content: msg});
+});
+
+
+var server = app.listen(3000,() => {
+    console.log('Server is running!');
+})
+
+
+リスト4-8
+<body>
+    <head>
+        <h1><%=title %></h1>
+    </head>
+    <div role="main">
+        <p><%-content %></p>
+        <p><a href="<%=link.href %>"><%=link.text %></a></p>
+    </div>
+</body>
+
+
+
+
+リスト4-9
+var express = require('express');
+var ejs = require("ejs");
+  
+var app = express();
+app.engine('ejs',ejs.renderFile);
+app.use(express.static('public'));
+
+
+// ※トップページ
+app.get("/",(req, res) => {
+    var msg = 'This is Index Page!<br>' 
+        + 'これは、トップページです。';
+    res.render('index.ejs', 
+        {
+            title: 'Index', 
+            content: msg, 
+            link:{href:'/other', text:'※別のページに移動'}
+        });
+});
+
+
+// ※otherページ
+app.get("/other",(req, res) => {
+    var msg = 'This is Other Page!<br>' 
+        + 'これは、用意された別のページです。';
+    res.render('index.ejs', 
+        {
+            title: 'other', 
+            content: msg, 
+            link:{href:'/', text:'※トップに戻る'}
+        });
+});
+
+
+var server = app.listen(3000,() => {
+    console.log('Server is running!');
+})
+
+
+
+
+リスト4-10
+app.get('/',(req, res => ){
+    var msg = 'This is Index Page!<br>' 
+        + 'これは、トップページです。';
+    var url = '/other?name=taro&pass=yamada';
+    res.render('index.ejs', 
+        {
+            title: 'Index', 
+            content: msg, 
+            link:{href:url, text:'※別のページに移動'}
+        });
+});
+
+
+app.get('/other',(req, res) => {
+    var name = req.query.name;
+    var pass = req.query.pass;
+    var msg = 'あなたの名前は「' + name + 
+        '」<br>パスワードは「' + pass + '」です。';
+    res.render('index.ejs', 
+        {
+            title: 'other', 
+            content: msg, 
+            link:{href:'/', text:'※トップに戻る'}
+        });
+});
+
+
+
+
+リスト4-11
+<body>
+    <head>
+        <h1><%=title %></h1>
+    </head>
+    <div role="main">
+        <p><%-content %></p>
+        <form action="/" method="post">
+        <p><input type="text" name="message">
+            <input type="submit" value="送信"></p>
+        </form>
+    </div>
+</body>
+
+
+
+
+リスト4-12
+var express = require('express');
+var ejs = require("ejs");
+
+
+var app = express();
+app.engine('ejs',ejs.renderFile);
+app.use(express.static('public'));
+
+
+var bodyParser = require('body-parser'); //★追加
+app.use(bodyParser.urlencoded({extended: false})); //★追加
+
+
+app.get('/',(req, res) => {
+    var msg = 'This is Index Page!<br>' 
+        + '※メッセージを書いて送信して下さい。';
+    res.render('index.ejs', 
+        {
+            title: 'Index', 
+            content: msg, 
+        });
+});
+
+
+// ※POST送信の処理
+app.post('/',(req, res) => {
+    var msg = 'This is Posted Page!<br>' +
+        'あなたは「<b>' + req.body.message + 
+        '</b>」と送信しました。';
+    res.render('index.ejs', 
+        {
+            title: 'Posted', 
+            content: msg, 
+        });
+});
+
+
+var server = app.listen(3000,() => {
+    console.log('Server is running!');
+})
+
+
+
+
+リスト4-13
+<tr>
+    <th><%=key %></th><td><%= val %></td>
+</tr>
+
+
+
+
+リスト4-14
+<body>
+    <head>
+        <h1><%=title %></h1>
+    </head>
+    <div role="main">
+        <p><%-content %></p>
+        <p><table style="width:85%;">
+            <% for(var key in data) { %>
+                <%-include('data_item', {key:key, val:data[key]}) %>
+            <% } %>
+        </table></p>
+    </div>
+</body>
+
+
+
+
+リスト4-15
+table {
+    margin: 20px;
+}
+table tr th {
+    background-color: #999;
+    color: #fff;
+    text-align: center;
+    padding: 3px 10px;
+}
+table tr td {
+    background-color: #eee;
+    color: #666;
+    text-align: left;
+    padding: 3px 10px;
+}
+
+
+
+
+リスト4-16
+var data = {
+    'Taro':'taro@yamada',
+    'Hanako':'hanako@flower',
+    'Sachiko':'sachico@happy',
+    'Ichiro':'ichiro@baseball',
+};
+
+
+app.get('/',(req, res) => {
+    var msg = 'This is Index Page!<br>' 
+        + '※データを表示します。';
+    res.render('index.ejs', 
+        {
+            title: 'Index', 
+            content: msg, 
+            data:data,
+        });
+});
+
+
+
+
+リスト4.17
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+
+
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+
+
+var app = express();
+
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+
+module.exports = app;
+
+
+
+
+リスト4-18
+var express = require('express');
+var router = express.Router();
+
+
+/* GET home page. */
+router.get('/',(req, res, next) => {
+  res.render('index', { title: 'Express' });
+});
+
+
+module.exports = router;
+
+
+
+
+リスト4-19
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+  </body>
+</html>
+
+
+
+
+リスト4-21
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta http-equiv="content-type"
+        content="text/html; charset=UTF-8">
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <head>
+        <h1><%= title %></h1>
+    </head>
+    <div role="main">
+        <p><%- content %></p>
+    </div>
+  </body>
+</html>
+
+
+
+
+リスト4-22
+var express = require('express');
+var router = express.Router();
+
+
+router.get('/',(req, res, next) => {
+    var data = {
+        title: 'Hello!',
+        content: 'これは、サンプルのコンテンツです。<br>this is sample content.'
+    };
+    res.render('hello', data);
+});
+
+
+module.exports = router;
+
+
+
+
+リスト4-23
+var hello = require('./routes/hello');
+app.use('/hello', hello);
+
+
+
+
+リスト5-1
+var express = require('express');
+var router = express.Router();
+
+
+router.get('/',(req, res, next) => {
+    var name = req.query.name;
+    var mail = req.query.mail;
+    var data = {
+        title: 'Hello!',
+        content: 'あなたの名前は、' + name + '。<br>' + 
+            'メールアドレスは、' + mail + 'です。'
+    };
+    res.render('hello', data);
+});
+
+
+module.exports = router;
+
+
+
+
+リスト5-3
+<body>
+    <head>
+        <h1><%= title %></h1>
+    </head>
+    <div role="main">
+        <p><%- content %></p>
+        <form method="post" action="/hello/post">
+            <input type="text" name="message">
+            <input type="submit" value="送信">
+        </form>
+    </div>
+</body>
+
+
+
+
+リスト5-4
+var express = require('express');
+var router = express.Router();
+
+
+router.get('/',(req, res, next) => {
+    var data = {
+        title: 'Hello!',
+        content: '※何か書いて送信して下さい。'
+    };
+    res.render('hello', data);
+});
+
+
+router.post('/post',(req, res, next) => {
+    var msg = req.body['message'];
+    var data = {
+        title: 'Hello!',
+        content: 'あなたは、「' + msg + '」と送信しました。'
+    };
+    res.render('hello', data);
+});
+
+
+module.exports = router;
+
+
+
+
+リスト5-5
+var session = require('express-session');
+
+
+var session_opt = {
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false, 
+  cookie: { maxAge: 60 * 60 * 1000 }
+};
+app.use(session(session_opt));
+
+
+
+
+リスト5-6
+var express = require('express');
+var router = express.Router();
+
+
+router.get('/',(req, res, next) => {
+    var msg = '※何か書いて送信して下さい。';
+    if (req.session.message != undefined){
+        msg ="Last Message: " + req.session.message;
+    }
+    var data = {
+        title: 'Hello!',
+        content: msg
+    };
+    res.render('hello', data);
+});
+
+
+router.post('/post',(req, res, next) => {
+    var msg = req.body['message'];
+    req.session.message = msg;
+    var data = {
+        title: 'Hello!',
+        content: "Last Message: " + req.session.message
+    };
+    res.render('hello', data);
+});
+
+
+module.exports = router;
+
+
+
+
+リスト5-7
+var express = require('express');
+var router = express.Router();
+
+
+var data = [
+    {name:'Taro', age:35, mail:'taro@yamada'},
+    {name:'Hanako', age:29, mail:'hanako@flower'},
+    {name:'Sachiko', age:41, mail:'sachico@happy'}
+];
+
+
+router.get('/',(req, res, next) => {
+    var n = req.query.id;
+    res.json(data[n]);
+});
+
+
+module.exports = router;
+
+
+
+
+リスト5-8 app.js
+var ajax = require('./routes/ajax');
+app.use('/ajax', ajax);
+
+
+
+
+リスト5-9
+<!DOCTYPE html>
+<html lang="ja">
+
+
+<head>
+<meta http-equiv="content-type"
+    content="text/html; charset=UTF-8">
+<title><%= title %></title>
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+<script>
+$(document).ready(function(){
+    $('#btn').click(function(){
+        var n = $('#num').val();
+        $.getJSON("/ajax?id=" + n, function(json){
+            var msg = '<table>' +
+                '<tr><th>名前</th>'+
+                '<td>' +json.name + '</td></tr>' +
+                '<tr><th>年齢</th>' +
+                '<td>' + json.age + '</td></tr>' +
+                '<r><th>メール</th>' +
+                '<td>' + json.mail + '</td></tr>' +
+                '</table>';
+            $('#msg').html(msg);
+        });
+    });
+});
+</script>
+</head>
+
+
+<body>
+    <head>
+        <h1><%= title %></h1>
+    </head>
+    <div role="main">
+        <p id="msg"><%- content %></p>
+        <input type="text" name="num" id="num">
+        <input type="button" id="btn" value="GET!">
+    </div>
+</body>
+
+
+</html>
+
+
+
+
+リスト5-10
+<script src="/javascripts/jquery.min.js"></script>
+
+
+
+
+リスト5-11
+<!DOCTYPE html>
+<html lang="ja">
+
+
+<head>
+<meta http-equiv="content-type"
+    content="text/html; charset=UTF-8">
+<title><%= title %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+
+<body>
+    <head>
+        <h1><%= title %></h1>
+    </head>
+    <div role="main">
+        <% if (content != null) { %>
+            <ol>
+            <% for(var i in content) { %>
+            <% var obj = content[i]; %>
+            <li><a href="<%=obj.link %>">
+                    <%= obj.title %></a></li>
+            </tr>
+            <% } %>
+            </ol>
+        <% } %>
+    </div>
+</body>
+
+
+</html>
+
+
+
+
+リスト5-12
+var express = require('express');
+var router = express.Router();
+
+
+var http = require('https'); //★追加
+var parseString = require('xml2js').parseString; //★追加
+
+
+router.get('/',(req, res, next) => {
+    var opt = {
+        host: 'news.google.com',
+        port: 443,
+        path: '/news?hl=ja&ned=us&ie=UTF-8&oe=UTF-8&output=rss'
+    };
+    http.get(opt, (res2) => {
+        var body = '';
+        res2.on('data',(data) => {
+            body += data;
+        });
+        res2.on('end',() => {
+            parseString(body.trim(), (err, result) => {
+                var data = {
+                    title: 'Hello!',
+                    content: result.rss.channel[0].item
+                };
+                res.render('hello', data);
+            });
+        })
+    });
+});
+
+
+module.exports = router;
+
+
+
+
+リスト5-13
+<body>
+    <head>
+        <h1><%= title %></h1>
+    </head>
+    <div role="main">
+        <table>
+        <% for(var i in content) { %>
+        <tr>
+            <% var obj = content[i]; %>
+            <th><%= obj.id %></th>
+            <td><%= obj.name %></td>
+            <td><%= obj.mail %></td>
+            <td><%= obj.age %></td>
+        </tr>
+        <% } %>
+        </table>
+    </div>
+</body>
+
+
+
+
+リスト5-14
+var express = require('express');
+var router = express.Router();
+
+
+var mysql = require('mysql'); //★追加
+
+
+// MySQLの設定情報
+var mysql_setting = {
+    host     : 'localhost',
+    user     : 'root',
+    password : '',
+    database : 'my-nodeapp-db'
+};
+
+
+// GETアクセスの処理
+router.get('/',(req, res, next) => {
+
+
+    // コネクションの用意
+    var connection = mysql.createConnection(mysql_setting);
+
+
+    // データベースに接続
+    connection.connect();
+
+
+    // データを取り出す
+    connection.query('SELECT * from mydata', 
+            function (error, results, fields) {
+        // データベースアクセス完了時の処理
+        if (error == null) {
+            var data = {title:'mysql',content:results};
+            res.render('hello', data);
+        }
+    });
+
+
+    // 接続を解除
+    connection.end();
+});
+
+
+module.exports = router;
+
+
+
+
+リスト5-15
+<!DOCTYPE html>
+<html lang="ja">
+
+
+<head>
+<meta http-equiv="content-type"
+    content="text/html; charset=UTF-8">
+<title><%= title %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+
+<body>
+    <head>
+        <h1><%= title %></h1>
+    </head>
+    <div role="main">
+        <p><%= content %></p>
+        <form method="post" action="/hello/add">
+        <table>
+            <tr>
+                <th>NAME</th>
+                <td><input type="text" name="name"></td>
+            </tr>
+            <tr>
+                <th>MAIL</th>
+                <td><input type="text" name="mail"></td>
+            </tr>
+            <tr>
+                <th>AGE</th>
+                <td><input type="number" name="age"></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="作成"></td>
+            </tr>
+        </table>
+        </form>
+    </div>
+</body>
+
+
+</html>
+
+
+
+
+リスト5-16
+// 新規作成ページへのアクセス
+router.get('/add', (req, res, next) => {
+    var data = {
+        title: 'Hello/Add',
+        content: '新しいレコードを入力：'
+    }
+    res.render('hello/add', data);
+});
+
+
+// 新規作成フォーム送信の処理
+router.post('/add', (req, res, next) => {
+    var nm = req.body.name;
+    var ml = req.body.mail;
+    var ag = req.body.age;
+    var data = {'name':nm, 'mail':ml, 'age':ag};
+
+
+    // データベースの設定情報
+    var connection = mysql.createConnection(mysql_setting);
+
+
+    // データベースに接続
+    connection.connect();
+
+
+    // データを取り出す
+    connection.query('insert into mydata set ?', data, 
+            function (error, results, fields) {
+        res.redirect('/hello');
+    });
+
+
+    // 接続を解除
+    connection.end();
+});
+
+
+
+
+リスト5-17
+<!DOCTYPE html>
+<html lang="ja">
+
+
+<head>
+<meta http-equiv="content-type"
+    content="text/html; charset=UTF-8">
+<title><%= title %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+
+<body>
+    <head>
+        <h1><%= title %></h1>
+    </head>
+    <div role="main">
+        <p><%= content %></p>
+        <table>
+            <tr>
+                <th>ID</th>
+                <td><%= mydata.id %></td>
+            </tr>
+            <tr>
+                <th>NAME</th>
+                <td><%= mydata.name %></td>
+            </tr>
+            <tr>
+                <th>MAIL</th>
+                <td><%= mydata.mail %></td>
+            </tr>
+            <tr>
+                <th>AGE</th>
+                <td><%= mydata.age %></td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+
+</html>
+
+
+
+
+リスト5-18
+// 指定IDのレコードを表示する
+router.get('/show', (req, res, next) => {
+    var id = req.query.id;
+
+
+    // データベースの設定情報
+    var connection = mysql.createConnection(mysql_setting);
+
+
+    // データベースに接続
+    connection.connect();
+
+
+    // データを取り出す
+    connection.query('SELECT * from mydata where id=?', id,
+            function (error, results, fields) {
+        // データベースアクセス完了時の処理
+        if (error == null) {
+            var data = {
+                title: 'Hello/show',
+                content: 'id = ' + id + ' のレコード：',
+                mydata: results[0]
+            }
+            res.render('hello/show', data);
+        }
+    });
+
+
+    // 接続を解除
+    connection.end();
+});
+
+
+
+
+リスト5-19
+<!DOCTYPE html>
+<html lang="ja">
+
+
+<head>
+<meta http-equiv="content-type"
+    content="text/html; charset=UTF-8">
+<title><%= title %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+
+<body>
+    <head>
+        <h1><%= title %></h1>
+    </head>
+    <div role="main">
+        <p><%= content %></p>
+        <form method="post" action="/hello/edit">
+        <input type="hidden" name="id" value="<%= mydata.id %>">
+        <table>
+            <tr>
+                <th>NAME</th>
+                <td><input type="text" name="name" value="<%= mydata.name %>"></td>
+            </tr>
+            <tr>
+                <th>MAIL</th>
+                <td><input type="text" name="mail" value="<%= mydata.mail %>"></td>
+            </tr>
+            <tr>
+                <th>AGE</th>
+                <td><input type="number" name="age" value="<%= mydata.age %>"></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="更新"></td>
+            </tr>
+        </table>
+        </form>
+    </div>
+</body>
+
+
+</html>
+
+
+
+
+リスト5-20
+// 指定レコードを編集
+router.get('/edit', (req, res, next) => {
+    var id = req.query.id;
+
+
+    // データベースの設定情報
+    var connection = mysql.createConnection(mysql_setting);
+
+
+    // データベースに接続
+    connection.connect();
+
+
+    // データを取り出す
+    connection.query('SELECT * from mydata where id=?', id,
+            function (error, results, fields) {
+        // データベースアクセス完了時の処理
+        if (error == null) {
+            var data = {
+                title: 'Hello/edit',
+                content: 'id = ' + id + ' のレコード：',
+                mydata: results[0]
+            }
+            res.render('hello/edit', data);
+        }
+    });
+
+
+    // 接続を解除
+    connection.end();
+});
+
+
+// 編集フォーム送信の処理
+router.post('/edit', (req, res, next) => {
+    var id = req.body.id;
+    var nm = req.body.name;
+    var ml = req.body.mail;
+    var ag = req.body.age;
+    var data = {'name':nm, 'mail':ml, 'age':ag};
+
+
+    // データベースの設定情報
+    var connection = mysql.createConnection(mysql_setting);
+
+
+    // データベースに接続
+    connection.connect();
+
+
+    // データを取り出す
+    connection.query('update mydata set ? where id = ?', 
+            [data, id], function (error, results, fields) {
+        res.redirect('/hello');
+    });
+
+
+    // 接続を解除
+    connection.end();
+});
+
+
+
+
+リスト5-21
+<!DOCTYPE html>
+<html lang="ja">
+
+
+<head>
+<meta http-equiv="content-type"
+    content="text/html; charset=UTF-8">
+<title><%= title %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+
+<body>
+    <head>
+        <h1><%= title %></h1>
+    </head>
+    <div role="main">
+        <p><%= content %></p>
+        <table>
+            <tr>
+                <th>NAME</th>
+                <td><%= mydata.name %></td>
+            </tr>
+            <tr>
+                <th>MAIL</th>
+                <td><%= mydata.mail %></td>
+            </tr>
+            <tr>
+                <th>AGE</th>
+                <td><%= mydata.age %></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+            </tr>
+        </table>
+        <form method="post" action="/hello/delete">
+            <input type="hidden" name="id" value="<%= mydata.id %>">
+            <p><input type="submit" value="削除"></p>
+        </form>
+    </div>
+</body>
+
+
+</html>
+
+
+
+
+リスト5-22
+// 指定レコードを削除
+router.get('/delete', (req, res, next) => {
+    var id = req.query.id;
+
+
+    // データベースの設定情報
+    var connection = mysql.createConnection(mysql_setting);
+
+
+    // データベースに接続
+    connection.connect();
+
+
+    // データを取り出す
+    connection.query('SELECT * from mydata where id=?', id,
+            function (error, results, fields) {
+        // データベースアクセス完了時の処理
+        if (error == null) {
+            var data = {
+                title: 'Hello/delete',
+                content: 'id = ' + id + ' のレコード：',
+                mydata: results[0]
+            }
+            res.render('hello/delete', data);
+        }
+    });
+
+
+    // 接続を解除
+    connection.end();
+});
+
+
+// 削除フォームの送信処理
+router.post('/delete', (req, res, next) => {
+    var id = req.body.id;
+
+
+    // データベースの設定情報
+    var connection = mysql.createConnection(mysql_setting);
+
+
+    // データベースに接続
+    connection.connect();
+
+
+    // データを取り出す
+    connection.query('delete from mydata where id=?', 
+            id, function (error, results, fields) {
+        res.redirect('/hello');
+    });
+
+
+    // 接続を解除
+    connection.end();
+});
+
+
+
+
+リスト6-1
+<body>
+    <head>
+        <h1><%= title %></h1>
+    </head>
+    <div role="main">
+        <p><%- content %></p>
+        <form method="post" action="/hello/add">
+        <table>
+            <tr>
+                <th>NAME</th>
+                <td><input type="text" name="name"
+                    value="<%= form.name %>"></td>
+            </tr>
+            <tr>
+                <th>MAIL</th>
+                <td><input type="text" name="mail"
+                    value="<%= form.mail %>"></td>
+            </tr>
+            <tr>
+                <th>AGE</th>
+                <td><input type="text" name="age"
+                    value="<%= form.age %>"></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="作成"></td>
+            </tr>
+        </table>
+        </form>
+    </div>
+</body>
+
+
+
+
+リスト6-2
+.error {
+ color: red;
+}
+
+
+
+
+リスト6-3
+var validator = require('express-validator');
+app.use(validator());
+
+
+
+
+リスト6-4
+// 新規作成ページへのアクセス
+router.get('/add', (req, res, next) => {
+    var data = {
+        title: 'Hello/Add',
+        content: '新しいレコードを入力：',
+        form: {name:'', mail:'', age:0}
+    }
+    res.render('hello/add', data);
+});
+
+
+// 新規作成フォームの送信処理
+router.post('/add', (req, res, next) => {
+    req.check('name','NAME は必ず入力して下さい。').notEmpty();
+    req.check('mail','MAIL はメールアドレスを記入して下さい。').isEmail();
+    req.check('age', 'AGE は年齢（整数）を入力下さい。').isInt();
+
+
+    req.getValidationResult().then((result) => {
+        if (!result.isEmpty()) {
+            var re = '<ul class="error">';
+            var result_arr = result.array();
+            for(var n in result_arr) {
+                re += '<li>' + result_arr[n].msg + '</li>'
+            }
+            re += '</ul>';
+            var data = {
+                title: 'Hello/Add',
+                content: re,
+                form: req.body
+            }
+            res.render('hello/add', data);
+        } else {
+            var nm = req.body.name;
+            var ml = req.body.mail;
+            var ag = req.body.age;
+            var data = {'name':nm, 'mail':ml, 'age':ag};
+            
+            var connection = mysql.createConnection(mysql_setting);
+            connection.connect();
+            connection.query('insert into mydata set ?', data, 
+                    function (error, results, fields) {
+                res.redirect('/hello');
+            });
+            connection.end();
+        }
+    });
+});
+
+
+
+
+リスト6-5
+<body>
+    <head>
+        <h1><%= title %></h1>
+    </head>
+    <div role="main">
+        <table>
+        <% for(var i in content) { %>
+        <tr>
+            <% var obj = content[i].attributes; %>
+            <th><%= obj.id %></th>
+            <td><%= obj.name %></td>
+            <td><%= obj.mail %></td>
+            <td><%= obj.age %></td>
+        </tr>
+        <% } %>
+        </table>
+    </div>
+</body>
+
+
+
+
+リスト6-6
+// ★以下を追加
+var knex = require('knex')({
+    dialect: 'mysql',
+    connection: {
+                host     : 'localhost',
+                user     : 'root',
+                password : '',
+                database : 'my-nodeapp-db',
+                charset  : 'utf8'
+      }
+});
+
+
+var Bookshelf = require('bookshelf')(knex);
+
+
+var MyData = Bookshelf.Model.extend({
+    tableName: 'mydata'
+});
+// ここまで
+
+
+// ★以下は、既にあるメソッドを書き換える
+// GETアクセスの処理
+router.get('/', (req, res, next) => {
+    new MyData().fetchAll().then((collection) => {
+        var data = {
+                    title: 'Hello!',
+                    content: collection.toArray()
+                };
+                res.render('hello/index', data);
+   })
+   .catch((err) => {
+        res.status(500).json({error: true, data: {message: err.message}});
+   });
+});
+
+
+
+
+リスト6-7
+router.post('/add', (req, res, next) => {
+    var response = res;
+    new MyData(req.body).save().then((model) => {
+        response.redirect('/hello');
+    });
+});
+
+
+
+
+リスト6-8
+<!DOCTYPE html>
+<html lang="ja">
+
+
+<head>
+<meta http-equiv="content-type"
+    content="text/html; charset=UTF-8">
+<title><%= title %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+
+<body>
+    <head>
+        <h1><%= title %></h1>
+    </head>
+    <div role="main">
+        <p><%- content %></p>
+        <% if (mydata != null){ %>
+        <p><ul>
+            <li><%- mydata.id %></li>
+            <li><%- mydata.attributes.name %></li>
+            <li><%- mydata.attributes.mail %></li>
+            <li><%- mydata.attributes.age + ' old.' %></li>
+        </ul></p>
+        <% } %>
+        <form method="post" action="/hello/find">
+        <table>
+            <tr>
+                <th>NAME</th>
+                <td><input type="text" name="fstr" value="<%= form.fstr %>"></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="検索"></td>
+            </tr>
+        </table>
+        </form>
+    </div>
+</body>
+
+
+</html>
+
+
+
+
+リスト6-9
+router.get('/find', (req, res, next) => {
+    var data = {
+        title: '/Hello/Find',
+        content: '検索IDを入力：',
+        form: {fstr:''},
+        mydata: null
+    };
+    res.render('hello/find', data);
+});
+
+
+router.post('/find', (req, res, next) => {
+    new MyData().where('id', '=', req.body.fstr).fetch().then((collection) => {
+        var data = {
+            title: 'Hello!',
+            content: '※id = ' + req.body.fstr + ' の検索結果：',
+            form: req.body,
+            mydata: collection
+        };
+        res.render('hello/find', data);
+    })
+});
+
+
+
+
+リスト6-10
+Bookshelf.plugin('pagination'); //★fetchPage追加
+
+
+router.get('/:page', (req, res, next) => {
+    var pg = req.params.page;
+    pg *= 1;
+    if (pg < 1){ pg = 1; }
+    new MyData().fetchPage({page:pg, pageSize:3}).then((collection) => {
+        var data = {
+            title: 'Hello!',
+            content: collection.toArray(),
+            pagination:collection.pagination
+        };
+        console.log(collection.pagination);
+        res.render('hello/index', data);
+   })
+   .catch((err) => {
+        res.status(500).json({error: true, data: {message: err.message}});
+   });
+});
+
+
+
+
+リスト6-11
+<div>
+<span><a href="/hello/1">&lt;&lt; First</a></span>
+｜
+<span><a href="/hello/<%= pagination.page - 1 %>">&lt;&lt; prev</a></span>
+｜
+<span><a href="/hello/<%= pagination.page + 1 %>">Next &gt;&gt;</a></span>
+｜
+<span><a href="/hello/<%= pagination.pageCount %>">Last &gt;&gt;</a></span>
+</div>
+
+
+
+
+リスト7-1
+CREATE TABLE `users` (
+        `id`        INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+        `name`        TEXT NOT NULL,
+        `password`        TEXT NOT NULL,
+        `comment`        TEXT
+);
+
+
+
+
+リスト7-2
+CREATE TABLE `messages` (
+        `id`        INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+        `user_id`        INTEGER NOT NULL,
+        `message`        TEXT NOT NULL,
+        `created_at`        REAL,
+        `updated_at`        REAL
+);
+
+
+
+
+リスト7-3
+<!DOCTYPE html>
+<html>
+<head>
+ <title><%= title %></title>
+ <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+ <head>
+   <h1><%= title %></h1>
+ </head>
+ <div role="main">
+   <h2>Welcome to <%= login.name %>.</h2>
+   <form method="post" action="/">
+     <p><input type="text" name="msg" size="50">
+     <input type="submit" value="送信"></p>
+   </form>
+   <hr>
+   <p><table style="width:95%;">
+     <% for(var i in collection) { %>
+       <%- include('data_item', {val:collection[i]}) %>
+     <% } %>
+   </table></p>
+   <p>
+  <% if (pagination.page > 1) { %>
+  <span><a href="/<%= pagination.page - 1 %>">&lt;&lt; prev</a></span>
+  <% } else { %>
+  <span>&lt;&lt; prev</span>
+  <% } %>
+  ｜
+  <% if (pagination.page < pagination.pageCount) { %>
+  <span><a href="/<%= pagination.page + 1 %>">Next &gt;&gt;</a></span>
+  <% } else { %>
+  <span>Next &gt;&gt;</span>
+  <% } %>
+   </p>
+ </div>
+</body>
+</html>
+
+
+
+
+リスト7-4
+<% if (val != null){ %>
+<tr>
+   <th style="width:100px;">
+   <a class="home" href="/home/<%=val.attributes.user_id %>/1">
+   <%= val.relations.user.attributes.name %></a></th>
+   <td><%= val.attributes.message %></td>
+   <%
+   var d = new Date(val.attributes.created_at);
+   var dstr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
+   + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+   %>
+   <td style="width:150px;"><%= dstr %></td>
+</tr>
+<% } %>
+
+
+
+
+リスト7-5
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+    <head>
+    <h1><%= title %></h1>
+    </head>
+    <div role="main">
+    <h2><%= collection[0].relations.user.attributes.name %> 's Home.</h2>
+    <p><%= collection[0].relations.user.attributes.comment %></p>
+    <hr>
+    <p><table style="width:90%;">
+    <% for(var i in collection) { %>
+        <%- include('data_item', {val:collection[i]}) %>
+    <% } %>
+    </table></p>
+    <p>
+    <% if (pagination.page > 1) { %>
+    <span><a href="/home/<%=user_id %>/<%= pagination.page - 1 %>">&lt;&lt; prev</a></span>
+    <% } else { %>
+    <span>&lt;&lt; prev</span>
+    <% } %>
+    ｜
+    <% if (pagination.page < pagination.pageCount) { %>
+    <span><a href="/home/<%=user_id %>/<%= pagination.page + 1 %>">Next &gt;&gt;</a></span>
+    <% } else { %>
+    <span>Next &gt;&gt;</span>
+    <% } %>
+    </p>
+    <p> </p>
+    <p><a href="/">&lt;&lt; Top</p>
+    </div>
+</body>
+</html>
+
+
+
+
+リスト7-6
+<!DOCTYPE html>
+<html lang="ja">
+
+
+<head>
+<meta http-equiv="content-type"
+    content="text/html; charset=UTF-8">
+<title><%= title %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+
+<body>
+    <head>
+        <h1><%= title %></h1>
+    </head>
+    <div role="main">
+        <p><%- content %></p>
+        <form method="post" action="/users/add">
+        <table>
+            <tr>
+                <th>NAME</th>
+                <td><input type="text" name="name"
+                    value="<%= form.name %>"></td>
+            </tr>
+            <tr>
+                <th>PASSWORD</th>
+                <td><input type="password" name="password"
+                    value="<%= form.password %>"></td>
+            </tr>
+            <tr>
+                <th>COMMENT</th>
+                <td><textarea name="comment"><%= form.comment %></textarea></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="作成"></td>
+            </tr>
+        </table>
+        </form>
+    </div>
+</body>
+
+
+</html>
+
+
+
+
+リスト7-7
+<!DOCTYPE html>
+<html lang="ja">
+
+
+<head>
+<meta http-equiv="content-type"
+    content="text/html; charset=UTF-8">
+<title><%= title %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+
+<body>
+    <head>
+        <h1><%= title %></h1>
+    </head>
+    <div role="main">
+        <p><%- content %></p>
+        <form method="post" action="/users">
+        <table>
+            <tr>
+                <th>NAME</th>
+                <td><input type="text" name="name"
+                    value="<%= form.name %>"></td>
+            </tr>
+            <tr>
+                <th>PASSWORD</th>
+                <td><input type="password" name="password"
+                    value="<%= form.password %>"></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="ログイン"></td>
+            </tr>
+        </table>
+        </form>
+        <p><a href="/">&lt;&lt; Top へ戻る</a>｜
+        <a href="/users/add">アカウントの作成&gt;&gt;</a></p>
+    </div>
+</body>
+
+
+</html>
+
+
+
+
+リスト7-8
+a {
+ color: #00B7FF;
+}
+a.home {
+ color: white;
+ text-decoration:none;
+}
+
+
+h1 {
+    font-size: 60pt;
+    color:#eee;
+    text-align:right;
+    margin:0px;
+}
+h2 {
+    font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+body {
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    color: #999;
+    margin:5px;
+}
+p {
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    margin: 0px 20px;
+}
+
+
+table {
+    margin: 20px;
+}
+table tr th {
+    background-color: #999;
+    color: #fff;
+    text-align: center;
+    padding: 5px 10px;
+}
+table tr td {
+    background-color: #eee;
+    color: #666;
+    text-align: left;
+    padding: 5px 10px;
+}
+.error {
+    color: red;
+}
+
+
+
+
+リスト7-9
+var express = require('express');
+var path = require('path');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var session = require('express-session');
+var validator = require('express-validator');
+
+
+var index = require('./routes/index');
+var users = require('./routes/users');
+var home = require('./routes/home');
+
+
+var app = express();
+
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(validator());
+
+
+var session_opt = {
+   secret: 'keyboard cat',
+   resave: false,
+   saveUninitialized: false,
+   cookie: { maxAge: 60 * 60 * 1000 }
+};
+app.use(session(session_opt));
+
+
+app.use('/users', users);
+app.use('/', index);
+app.use('/home', home);
+
+
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+
+// error handler
+app.use((err, req, res, next) => {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+
+module.exports = app;
+
+
+
+
+リスト7-10
+var express = require('express');
+var router = express.Router();
+
+
+var mysql = require('mysql');
+
+
+var knex = require('knex')({
+    dialect: 'mysql',
+    connection: {
+        host     : 'localhost',
+        user     : 'root',
+        password : '',
+        database : 'my-nodeapp-db',
+        harset  : 'utf8'
+      }
+});
+
+
+var Bookshelf = require('bookshelf')(knex);
+
+
+Bookshelf.plugin('pagination');
+
+
+var User = Bookshelf.Model.extend({
+   tableName: 'users'
+});
+
+
+var Message = Bookshelf.Model.extend({
+   tableName: 'messages',
+   hasTimestamps: true,
+   user: function() {
+      return this.belongsTo(User);
+   }
+});
+
+
+router.get('/', (req, res, next) => {
+   if (req.session.login == null){
+      res.redirect('/users');
+   } else {
+      res.redirect('/1');
+   }
+});
+
+
+router.get('/:page', (req, res, next) => {
+   if (req.session.login == null){
+      res.redirect('/users');
+      return;
+   }
+   var pg = req.params.page;
+   pg *= 1;
+   if (pg < 1){ pg = 1; }
+   new Message().orderBy('created_at', 'DESC')
+         .fetchPage({page:pg, pageSize:10, withRelated: ['user']})
+         .then((collection) => {
+      var data = {
+         title: 'miniBoard',
+         login:req.session.login,
+         collection:collection.toArray(),
+         pagination:collection.pagination
+      };
+      res.render('index', data);
+   }).catch((err) => {
+      res.status(500).json({error: true, data: {message: err.message}});
+   });
+
+
+});
+
+
+router.post('/',(req, res, next) => {
+var rec = {
+   message: req.body.msg,
+   user_id: req.session.login.id
+ }
+ new Message(rec).save().then((model) => {
+   res.redirect('/');
+ });
+})
+
+
+module.exports = router;
+
+
+
+
+リスト7-11
+var express = require('express');
+var router = express.Router();
+
+
+var knex = require('knex')({
+    dialect: 'mysql',
+    connection: {
+        host     : 'localhost',
+        user     : 'root',
+        password : '',
+        database : 'my-nodeapp-db',
+        harset  : 'utf8'
+      }
+});
+
+
+var Bookshelf = require('bookshelf')(knex);
+
+
+var User = Bookshelf.Model.extend({
+   tableName: 'users'
+});
+
+
+router.get('/add', (req, res, next) => {
+   var data = {
+      title:'Users/Add',
+      form:{name:'',password:'',comment:''},
+      content:'※登録する名前・パスワード・コメントを入力ください。'
+   }
+   res.render('users/add', data);
+});
+
+
+router.post('/add', (req, res, next) => {
+   var request = req;
+   var response = res;
+   req.check('name','NAME は必ず入力して下さい。').notEmpty();
+   req.check('password','PASSWORD は必ず入力して下さい。').notEmpty();
+   req.getValidationResult().then((result) => {
+      if (!result.isEmpty()) {
+         var content = '<ul class="error">';
+         var result_arr = result.array();
+         for(var n in result_arr) {
+            content += '<li>' + result_arr[n].msg + '</li>'
+         }
+         content += '</ul>';
+         var data = {
+            title: 'Users/Add',
+            content:content,
+            form: req.body
+         }
+         response.render('users/add', data);
+      } else {
+         request.session.login = null;
+         new User(req.body).save().then((model) => {
+            response.redirect('/');
+         });
+      }
+   });
+});
+
+
+router.get('/', (req, res, next) => {
+   var data = {
+      title:'Users/Login',
+      form:{name:'',password:''},
+      content:'名前とパスワードを入力下さい。'
+   }
+   res.render('users/login', data);
+});
+
+
+router.post('/', (req, res, next) => {
+   var request = req;
+   var response = res;
+   req.check('name','NAME は必ず入力して下さい。').notEmpty();
+   req.check('password','PASSWORD は必ず入力して下さい。').notEmpty();
+   req.getValidationResult().then((result) => {
+      if (!result.isEmpty()) {
+         var content = '<ul class="error">';
+         var result_arr = result.array();
+         for(var n in result_arr) {
+            content += '<li>' + result_arr[n].msg + '</li>'
+         }
+         content += '</ul>';
+         var data = {
+            title: 'Users/Login',
+            content:content,
+            form: req.body
+         }
+         response.render('users/login', data);
+      } else {
+         var nm = req.body.name;
+         var pw = req.body.password;
+         User.query({where: {name: nm}, andWhere: {password: pw}})
+            .fetch()
+            .then((model) => {
+               if (model == null){
+                  var data = {
+                  title:'再入力',
+                  content:'<p class="error">名前またはパスワードが違います。</p>',
+                  form: req.body
+               };
+               response.render('users/login',data);
+            } else {
+               request.session.login = model.attributes;
+               var data = {
+                  title:'Users/Login',
+                  content:'<p>ログインしました！<br>トップページに戻ってメッセージを送信下さい。</p>',
+                  form: req.body
+               };
+               response.render('users/login',data);
+            }
+         });
+      }
+   })
+});
+
+
+module.exports = router;
+
+
+
+
+リスト7-12
+var express = require('express');
+var router = express.Router();
+
+
+var knex = require('knex')({
+    dialect: 'mysql',
+    connection: {
+        host     : 'localhost',
+        user     : 'root',
+        password : '',
+        database : 'my-nodeapp-db',
+        harset  : 'utf8'
+      }
+});
+
+
+var Bookshelf = require('bookshelf')(knex);
+
+
+Bookshelf.plugin('pagination');
+
+
+var User = Bookshelf.Model.extend({
+   tableName: 'users'
+});
+
+
+var Message = Bookshelf.Model.extend({
+   tableName: 'messages',
+   hasTimestamps: true,
+   user: function() {
+      return this.belongsTo(User);
+   }
+});
+
+
+router.get('/', (req, res, next) => {
+   res.redirect('/');
+});
+
+
+router.get('/:id', (req, res, next) => {
+   res.redirect('/home/' + req.params.id + '/1');
+});
+
+
+router.get('/:id/:page', (req, res, next) => {
+   var id = req.params.id;
+   id *= 1;
+   var pg = req.params.page;
+   pg *= 1;
+   if (pg < 1){ pg = 1; }
+   new Message().orderBy('created_at', 'DESC')
+      .where('user_id' , '=', id)
+      .fetchPage({page:pg, pageSize:10, withRelated: ['user']})
+      .then((collection) => {
+         var data = {
+            title: 'miniBoard',
+            login:req.session.login,
+            user_id:id,
+            collection:collection.toArray(),
+            pagination:collection.pagination
+         };
+         res.render('home', data);
+   }).catch((err) => {
+      res.status(500).json({error: true, data: {message: err.message}});
+   });
+});
+
+
+module.exports = router;
+
+
+
+
+リスト7-13 SQL利用者のためのテーブル作成コード
+CREATE TABLE `users` (
+        `id`        INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+        `name`        TEXT NOT NULL,
+        `password`        TEXT NOT NULL
+);
+
+
+
+
+リスト7-14 SQL利用者のためのテーブル作成コード
+CREATE TABLE `markdata` (
+        `id`        INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+        `user_id`        INTEGER NOT NULL,
+        `title`        TEXT,
+        `content`        TEXT,
+        `created_at`        REAL,
+        `updated_at`        REAL
+);
+
+
+
+
+リスト7-15
+<!DOCTYPE html>
+<html>
+ <head>
+   <title><%= title %></title>
+   <link rel='stylesheet' href='/stylesheets/style.css' />
+ </head>
+ <body>
+   <h1><%= title %></h1>
+   <p>Hi, <span class="login_name"><%= login.name %></span>!<br>Welcome to <%= title %></p>
+   <form action="/" method="post">
+     <input type="text" name="find" size="40" value="<%= form.find %>">
+     <input type="submit" value="検索">
+   </form>
+   <hr />
+   <p><%= message %></p>
+   <ul>
+   <% for (var i in content) { %>
+     <% if (content[i].attributes.user_id != login.id) { continue; } %>
+     <li><a href="/mark/<%=content[i].id %>"><%=content[i].attributes.title %></a></li>
+   <% } %>
+   </ul>
+   <p> </p>
+   <p><a href="/add">※データを登録</a></p>
+  </body>
+</html>
+
+
+
+
+リスト7-16
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta http-equiv="content-type"
+    content="text/html; charset=UTF-8">
+<title><%= title %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+
+<body>
+    <head>
+        <h1><%= title %></h1>
+    </head>
+    <div role="main">
+        <form method="post" action="/add">
+        <table>
+            <tr><th>TITLE</th></tr>
+            <tr><td><input type="text" name="title" size="80"></td></tr>
+            <tr><th>CONTENT</th></tr>
+            <tr><td><textarea name="content" cols="80" rows="25"></textarea></td></tr>
+            <tr><th><input type="submit" value="送信"></th></tr>
+        </table>
+        </form>
+        <p><a href="/">&lt;&lt; Top へ戻る</a>
+    </div>
+</body>
+
+
+</html>
+
+
+
+
+リスト7-17
+<!DOCTYPE html>
+<html lang="ja">
+
+
+<head>
+<meta http-equiv="content-type"
+    content="text/html; charset=UTF-8">
+<title><%= title %></title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+
+<body>
+    <head>
+        <h1><%= title %></h1>
+    </head>
+    <div role="main">
+        <p><%- content %></p>
+        <form method="post" action="/login">
+        <table>
+            <tr>
+                <th>NAME</th>
+                <td><input type="text" name="name"
+                    value="<%= form.name %>"></td>
+            </tr>
+            <tr>
+                <th>PASSWORD</th>
+                <td><input type="password" name="password"
+                    value="<%= form.password %>"></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="ログイン"></td>
+            </tr>
+        </table>
+        </form>
+        <p><a href="/">&lt;&lt; Top へ戻る</a></p>
+    </div>
+</body>
+
+
+</html>
+
+
+
+
+リスト7-18
+<!DOCTYPE html>
+<html>
+ <head>
+   <title><%= title %></title>
+   <link rel='stylesheet' href='/stylesheets/style.css' />
+ </head>
+ <body>
+   <h1><%= title %></h1>
+   <h2><%= head %></h2>
+   <form method="post" action="/mark/<%=id %>">
+   <table>
+     <tr><th>SOURCE</th></tr>
+     <tr><td>
+       <textarea name="source" cols="60" rows="5"><%=source %></textarea>
+       </td></tr>
+       <tr><th><input type="submit" value="Update"></th></tr>
+   </table>
+   </form>
+   <div class="mark_area"><%- content %>
+   <p><%=footer %></p></div>
+   <p><a href="/">&lt;&lt; Top へ戻る</a></p>
+ </body>
+</html>
+
+
+
+
+リスト7-19
+.mark_area {
+    border: solid #aaa 1px;
+    margin: 30px;
+    padding:10px 20px;
+}
+
+
+h1 {
+    font-size: 60pt;
+    color:#eee;
+    text-align:right;
+    margin:0px;
+}
+h2 {
+    font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+body {
+    padding: 10px;
+    font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
+    color: #999;
+    margin:5px;
+}
+p {
+    font: 16px "Lucida Grande", Helvetica, Arial, sans-serif;
+    margin: 0px 20px;
+}
+pre {
+    background-color: #f6f6f6;
+    padding: 10px 20px;
+}
+
+
+a {
+ color: #aaa;
+}
+
+
+table {
+    margin: 20px;
+}
+table tr th {
+    background-color: #999;
+    color: #fff;
+    text-align: center;
+    padding: 5px 10px;
+}
+table tr td {
+    background-color: #eee;
+    color: #666;
+    text-align: left;
+    padding: 5px 10px;
+}
+.error {
+color: red;
+}
+span.login_name {
+    font-weight: bold;
+}
+
+
+
+
+リスト7-20
+var express = require('express');
+var path = require('path');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var session = require('express-session');
+var validator = require('express-validator');
+
+
+var index = require('./routes/index');
+var login = require('./routes/login');
+var add = require('./routes/add');
+var mark = require('./routes/mark');
+
+
+var app = express();
+
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(validator());
+
+
+var session_opt = {
+   secret: 'keyboard cat',
+   resave: false,
+   saveUninitialized: false,
+   cookie: { maxAge: 60 * 60 * 1000 }
+};
+app.use(session(session_opt));
+
+
+app.use('/login', login);
+app.use('/add', add);
+app.use('/mark', mark);
+app.use('/', index); // ★最後に追加
+
+
+
+
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+
+// error handler
+app.use((err, req, res, next) => {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+
+module.exports = app;
+
+
+
+
+リスト7-21
+var express = require('express');
+var router = express.Router();
+
+
+var markdown = require( "markdown" ).markdown;
+
+
+var knex = require('knex')({
+    dialect: 'mysql',
+    connection: {
+        host     : 'localhost',
+        user     : 'root',
+        password : '',
+        database : 'my-nodeapp-db',
+        harset  : 'utf8'
+      }
+});
+
+
+var Bookshelf = require('bookshelf')(knex);
+
+
+Bookshelf.plugin('pagination');
+
+
+var User = Bookshelf.Model.extend({
+   tableName: 'users'
+});
+
+
+var Markdata = Bookshelf.Model.extend({
+   tableName: 'markdata',
+   hasTimestamps: true,
+   user: function() {
+      return this.belongsTo(User);
+   }
+});
+
+
+router.get('/', function(req, res, next) {
+   if (req.session.login == null){
+      res.redirect('/login');
+   return;
+ }
+ new Markdata(['title']).orderBy('created_at','DESC')
+      .where('user_id', '=', req.session.login.id)
+      .fetchPage({page:1, pageSize:10, withRelated: ['user']})
+      .then((collection) => {
+      var data = {
+         title: 'Markdown Search',
+         login: req.session.login,
+         message: '※最近の投稿データ',
+         form: {find:''},
+         content:collection.toArray()
+      };
+      res.render('index', data);
+   });
+});
+
+
+router.post('/', function(req, res, next) {
+   new Markdata().orderBy('created_at','DESC')
+         .where('content', 'like', '%' + req.body.find + '%')
+         .fetchAll({withRelated: ['user']})
+         .then((collection) => {
+         var data = {
+            title: 'Markdown Search',
+            login: req.session.login,
+            message:'※"' + req.body.find + '" で検索された最近の投稿データ',
+            form:req.body,
+         content:collection.toArray()
+      };
+      res.render('index', data);
+   });
+});
+
+
+module.exports = router;
+
+
+
+
+リスト7-22
+var express = require('express');
+var router = express.Router();
+
+
+var knex = require('knex')({
+    dialect: 'mysql',
+    connection: {
+        host     : 'localhost',
+        user     : 'root',
+        password : '',
+        database : 'my-nodeapp-db',
+        harset  : 'utf8'
+      }
+});
+
+
+var Bookshelf = require('bookshelf')(knex);
+
+
+var User = Bookshelf.Model.extend({
+   tableName: 'users'
+});
+
+
+router.get('/', (req, res, next) => {
+   var data = {
+      title:'Login',
+      form:{name:'',password:''},
+      content:'名前とパスワードを入力下さい。'
+   }
+   res.render('login', data);
+});
+
+
+router.post('/', (req, res, next) => {
+   var request = req;
+   var response = res;
+   req.check('name','NAME は必ず入力して下さい。').notEmpty();
+   req.check('password','PASSWORD は必ず入力して下さい。').notEmpty();
+   req.getValidationResult().then((result) => {
+      if (!result.isEmpty()) {
+         var content = '<ul class="error">';
+         var result_arr = result.array();
+         for(var n in result_arr) {
+            content += '<li>' + result_arr[n].msg + '</li>'
+         }
+         content += '</ul>';
+         var data = {
+            title: 'Login',
+            content:content,
+            form: req.body
+         }
+         response.render('login', data);
+      } else {
+         var nm = req.body.name;
+         var pw = req.body.password;
+
+
+         User.query({where: {name: nm}, andWhere: {password: pw}})
+               .fetch()
+               .then((model) => {
+               if (model == null){
+                  var data = {
+                     title:'再入力',
+                     content:'<p class="error">名前またはパスワードが違います。</p>',
+                     form: req.body
+                  };
+                  response.render('login',data);
+               } else {
+                  request.session.login = model.attributes;
+                  var data = {
+                     title:'Login',
+                     content:'<p>ログインしました！<br>トップページに戻ってメッセージを送信下さい。</p>',
+                     form: req.body
+                  };
+                  response.render('login',data);
+               }
+            });
+         }
+      })
+});
+
+
+module.exports = router;
+
+
+
+
+リスト7-23
+var express = require('express');
+var router = express.Router();
+
+
+var markdown = require( "markdown" ).markdown;
+
+
+var knex = require('knex')({
+    dialect: 'mysql',
+    connection: {
+        host     : 'localhost',
+        user     : 'root',
+        password : '',
+        database : 'my-nodeapp-db',
+        harset  : 'utf8'
+      }
+});
+
+
+var Bookshelf = require('bookshelf')(knex);
+
+
+Bookshelf.plugin('pagination');
+
+
+var User = Bookshelf.Model.extend({
+   tableName: 'users'
+});
+
+
+var Markdata = Bookshelf.Model.extend({
+   tableName: 'markdata',
+   hasTimestamps: true,
+   user: function() {
+      return this.belongsTo(User);
+   }
+});
+
+
+router.get('/', (req, res, next) => {
+   if (req.session.login == null){
+      res.redirect('/login');
+      return;
+   }
+   res.render('add', { title: 'Add' });
+});
+
+
+router.post('/', (req, res, next) => {
+   var rec = {
+      title: req.body.title,
+      content: req.body.content,
+      user_id: req.session.login.id
+   }
+   new Markdata(rec).save().then((model) => {
+      res.redirect('/');
+   });
+});
+
+
+module.exports = router;
+
+
+
+
+リスト7-24
+var express = require('express');
+var router = express.Router();
+
+
+var markdown = require( "markdown" ).markdown;
+
+
+var knex = require('knex')({
+    dialect: 'mysql',
+    connection: {
+        host     : 'localhost',
+        user     : 'root',
+        password : '',
+        database : 'my-nodeapp-db',
+        harset  : 'utf8'
+      }
+});
+
+
+var Bookshelf = require('bookshelf')(knex);
+
+
+Bookshelf.plugin('pagination');
+
+
+var User = Bookshelf.Model.extend({
+   tableName: 'users'
+});
+
+
+var Markdata = Bookshelf.Model.extend({
+   tableName: 'markdata',
+   hasTimestamps: true,
+   user: function() {
+      return this.belongsTo(User);
+   }
+});
+
+
+router.get('/', (req, res, next) => {
+   res.redirect('/');
+   return;
+});
+
+
+router.get('/:id', (req, res, next) => {
+   var request = req;
+   var response = res;
+   if (req.session.login == null){
+      res.redirect('/login');
+      return;
+   }
+   Markdata.query({where: {user_id: req.session.login.id},
+         andWhere: {id: req.params.id}})
+      .fetch()
+      .then((model) => {
+         makepage(request, response, model, true);
+      });
+});
+
+
+router.post('/:id', (req, res, next) => {
+   var request = req;
+   var response = res;
+   var obj = new Markdata({id:req.params.id})
+      .save({content:req.body.source}, {patch: true})
+      .then((model) => {
+         makepage(request, response, model, false);
+      });
+});
+
+
+function makepage(req, res, model, flg) {
+   var footer;
+   if (flg){
+      var d1 = new Date(model.attributes.created_at);
+      var dstr1 = d1.getFullYear() + '-' + (d1.getMonth() + 1) + '-' + d1.getDate();
+      var d2 = new Date(model.attributes.created_at);
+      var dstr2 = d2.getFullYear() + '-' + (d2.getMonth() + 1) + '-' + d2.getDate();
+      footer = '(created: ' + dstr1 + ', updated: ' + dstr2 + ')';
+   } else {
+      footer = '(Updating date and time information...)'
+   }
+   var data = {
+      title: 'Markdown' ,
+      id: req.params.id,
+      head: model.attributes.title,
+      footer:footer,
+      content: markdown.toHTML(model.attributes.content),
+      source: model.attributes.content
+   };
+   res.render('mark', data);
+}
+
+
+module.exports = router;
