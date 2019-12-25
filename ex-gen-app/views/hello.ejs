@@ -5,39 +5,23 @@
         <meta http-equiv="content-type"
             content="text/html; charset=UTF-8">
         <title><%=title %></title>
-        <script src="javascripts/jquery.min.js"></script>
         <link rel="stylesheet" href="/stylesheets/style.css" />
-        <script>
-            $(document).ready(function(){
-                $('#btn').click(function(){
-                    var n = $('#num').val();
-                     //getJSONメソッドでAjax通信をしている、getJSONの第1引数のアドレスにAjax通信し、
-                     //通信が完了したら、第2引数のコールバック関数を実行する
-                     //getJSONはAjax通信でJSON形式のデータを受け取り、そのオブジェクトをコールバック関数に渡して処理
-                     //引数のjsonはgetJSONで受け取ったJavascriptオブジェクト
-                    $.getJSON("/ajax?id=" + n, function(json){
-                        var msg = '<table>' +
-                            '<tr><th>名前</th>' +
-                            '<td>' + json.name + '</td></tr>' +
-                            '<tr><th>年齢</th>' +
-                            '<td>' + json.age + '</td></tr>' +
-                            '<tr><th>メール</th>' +
-                            '<td>' + json.mail + '</td></tr>' +
-                            '</table>';
-                        $('#msg').html(msg);
-                    });
-                });
-            });
-        </script>
     </head>
     <body>
         <head>
             <h1><%=title %></h1>
         </head>
         <div role="main">
-            <p id="msg"><%-content %></p>
-            <input type="text" name="num" id="num">
-            <input type="button" id="btn" value="GET!">
+            <% if(content != null) { %>
+                <ol>
+                <% for(var i in content) { %>
+                <% var obj = content[i]; %>
+                <li><a href="<%=obj.link %>">
+                        <%= obj.title %></a></li>
+                </tr>
+                <% } %>
+                </ol>
+            <% } %>
         </div>
     </body>
 </html>
