@@ -12,6 +12,10 @@
         </head>
         <div role="main">
             <p><%-content %></p>
+            <form method="post" action="/hello/post">
+                <input type="text" name="message">
+                <input type="submit" name="送信">
+            </form>
         </div>
     </body>
 </html>
