@@ -62,4 +62,33 @@ router.post('/add', (req, res, next) => {
     connection.end();
 })
 
+//指定IDのレコードを表示する
+router.get('/show', (req, res, next) => {
+    var id = req.query.id;
+
+    //データベースの設定情報
+    var connection = mysql.createConnection(mysql_setting);
+
+    //データベースに接続
+    connection.connect();
+
+    //データを取り出す
+    connection.query('SELECT * from mydata where id=?', id,     //where 条件
+    function(error, results, fields) {
+        //データベースアクセス完了時の処理
+        if(error == null) {
+            var data = {
+                title:     'Hello/show',
+                content:   'id = ' + id + '　のレコード:' ,
+                mydata:     results[0]                      //select文を実行した結果はレコードの配列になっているので、最初のレコードだけを渡す
+            }
+            res.render('hello/show', data);
+        }
+    });
+
+    //接続を解除
+    connection.end();
+
+});
+
 module.exports = router;
