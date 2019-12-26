@@ -23,12 +23,43 @@ router.get('/', (req, res, next) => {      //ここはhello下の「/」にな�
             //データベースアクセス完了時の処理
             if(error == null) {
                 var data = {title: 'mysql', content: results};
-                res.render('hello', data);
+                res.render('hello/index', data);
             }
     });
 
     //接続を解除
     connection.end();       //DBアクセスを終了
 });
+
+router.get('/add', (req, res, next) => {
+    var data = {
+        title:      'Hello/Add',
+        content:    '新しいレコードを入力:'
+    }
+    res.render('hello/add', data);
+});
+
+//新規作成フォーム送信の処理
+router.post('/add', (req, res, next) => {
+    var nm = req.body.name;                 //送信されてきたフォームの値を変数に取り出す
+    var ml = req.body.mail;
+    var ag = req.body.age;
+    var data = {'name':nm, 'mail':ml, 'age':ag};        //ひとまとめにして変数dataに用意
+
+    //データベースの設定情報(コネクションの作成)
+    var connection = mysql.createConnection(mysql_setting);
+
+    //データベースに接続
+    connection.connect();
+
+    //クエリー文の実行
+    connection.query('insert into mydata set ?', data,  //第1引数:実行するSQL文(プレースホルダ(値の場所を予約))、第2引数:値(?のところにはめ込まれる)、
+            function(err, results, fields) {
+                res.redirect('/hello');                 //  /helloにリダイレクトする、redirect():引数に指定したアドレスにリダイレクトする
+    });
+
+    //接続を解除
+    connection.end();
+})
 
 module.exports = router;
