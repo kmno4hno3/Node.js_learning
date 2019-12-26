@@ -12,16 +12,17 @@
             <h1><%=title %></h1>
         </head>
         <div role="main">
-            <% if(content != null) { %>
-                <ol>
+            <table>
                 <% for(var i in content) { %>
-                <% var obj = content[i]; %>
-                <li><a href="<%=obj.link %>">
-                        <%= obj.title %></a></li>
+                <tr>
+                    <% var obj = content[i]; %>
+                    <th><%= obj.id %></th>
+                    <th><%= obj.name %></th>
+                    <th><%= obj.mail %></th>
+                    <th><%= obj.age %></th>
                 </tr>
                 <% } %>
-                </ol>
-            <% } %>
+            </table>
         </div>
     </body>
 </html>
