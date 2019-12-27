@@ -28,6 +28,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/ajax', ajax);                 //requireでロードしたajax.jsを/ajaxに割り当てる
 
+
 var session_opt = {
   secret: 'keyboard cat',               //秘密キーとなるテキスト、ハッシュと呼ばれる計算する時のキーとなる(デフォルトはkeyboard catだがそれぞれ書き換える)
   resave: false,                        //セッションストアに強制的に値を保存

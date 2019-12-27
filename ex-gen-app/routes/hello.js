@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');       //MySQLモジュールのロード
+const { check, validationResult } = require('express-validator');       //Express Validatorモジュールをロード
 
 var mysql_setting =  {              //MySQLにアクセスする際に必要となる設定情報を変数にまとめている
     host        : 'localhost',         //MySQLサーバーがあるホスト名
@@ -8,6 +9,7 @@ var mysql_setting =  {              //MySQLにアクセスする際に必要と�
     password    : '',                  //アクセス時に用いるパスワード(デフォルト)
     database    : 'my-nodeapp-db'      //利用するDB名
 };
+
 
 router.get('/', (req, res, next) => {      //ここはhello下の「/」になる(/hello/)
     
@@ -31,36 +33,66 @@ router.get('/', (req, res, next) => {      //ここはhello下の「/」にな�
     connection.end();       //DBアクセスを終了
 });
 
+//新規作成ページへのアクセス
 router.get('/add', (req, res, next) => {
     var data = {
         title:      'Hello/Add',
-        content:    '新しいレコードを入力:'
+        content:    '新しいレコードを入力:',
+        form:       {name: '', mail: '', age: 0}
     }
     res.render('hello/add', data);
 });
 
 //新規作成フォーム送信の処理
-router.post('/add', (req, res, next) => {
-    var nm = req.body.name;                 //送信されてきたフォームの値を変数に取り出す
-    var ml = req.body.mail;
-    var ag = req.body.age;
-    var data = {'name':nm, 'mail':ml, 'age':ag};        //ひとまとめにして変数dataに用意
+router.post('/add', 
+    [
+    //ExpressValidator.Validatorオブジェクトを返す
+    check('name').isLength({ min: 1 }).withMessage("NAME は必ず入力して下さい。"),    //最低文字数1のみ受付、メソッドを連続して書くことも可能(.isLength().withMessage())
+    check('mail').isEmail().withMessage("MAIL メールアドレスを記入して下さい。"),       //メールアドレスのみ受付
+    check('age').isInt().withMessage("AGE は年齢(整数)入力して下さい。"),              //isInt:整数のみ受付
+    ],
+    (req, res, next) => {
 
-    //データベースの設定情報(コネクションの作成)
-    var connection = mysql.createConnection(mysql_setting);
+    const errors = validationResult(req);   //バリデーションの実行結果を受け取っている
 
-    //データベースに接続
-    connection.connect();
+    //req.getValidationResult().then((result) => {
+        if(!errors.isEmpty()) {
+            var re = '<ul class="error">';
+            var result_arr = errors.array();        //バリデーションのバリデーションの結果を配列として取り出す、param・msg・valueという項目が用意されている
+            for(var n in result_arr){
+                re += '<li>' + result_arr[n].msg + '</li>'  //用意されていたmsgを変数に取り出す
+            }
+            re += '</ul>';
+            var data = {
+                title:  'Hello/Add',
+                content: re,
+                form: req.body          //Body Parserモジュールでフォームの内容が保存されるところ→フォームの値がテンプレート側でvalueに設定できるようになる
+            }
+            res.render('hello/add', data);
+        }else {
+            var nm = req.body.name;                 //送信されてきたフォームの値を変数に取り出す
+            var ml = req.body.mail;
+            var ag = req.body.age;
+            var data = {'name':nm, 'mail':ml, 'age':ag};        //ひとまとめにして変数dataに用意
 
-    //クエリー文の実行
-    connection.query('insert into mydata set ?', data,  //第1引数:実行するSQL文(プレースホルダ(値の場所を予約))、第2引数:値(?のところにはめ込まれる)、
-            function(err, results, fields) {
-                res.redirect('/hello');                 //  /helloにリダイレクトする、redirect():引数に指定したアドレスにリダイレクトする
-    });
+            //データベースの設定情報(コネクションの作成)
+            var connection = mysql.createConnection(mysql_setting);
 
-    //接続を解除
-    connection.end();
-})
+            //データベースに接続
+            connection.connect();
+
+            //クエリー文の実行
+            connection.query('insert into mydata set ?', data,  //第1引数:実行するSQL文(プレースホルダ(値の場所を予約))、第2引数:値(?のところにはめ込まれる)、
+                    function(err, results, fields) {
+                        res.redirect('/hello');                 //  /helloにリダイレクトする、redirect():引数に指定したアドレスにリダイレクトする
+            });
+
+            //接続を解除
+            connection.end();
+
+        }
+    //});
+});
 
 //指定IDのレコードを表示する
 router.get('/show', (req, res, next) => {
