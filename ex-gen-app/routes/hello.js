@@ -216,6 +216,24 @@ router.post('/find', (req,res, next) => {
     })
 });
 
+Bookshelf.plugin('pagination');     //fetchPage追加、paginatioプラグインを使えるようにした、plucinメソッドでプラグイン名を引数に指定すると利用できる
 
+router.get('/:page', (req, res, next) => {      //:page　pageというパラメーターの値がここに来ることを示す
+    var pg = req.params.page;
+    pg *= 1;
+    if(pg < 1) { pg = 1;}
+    new MyData().fetchPage({page:pg, pageSize:3}).then((collection) => {        //fetchPage：引数で指定したオブジェクト情報を元に指定ページのレコードを取り出す(fetchallのページネーション版)
+        var data = {
+            title: 'Hello!',
+            content: collection.toArray(),
+            pagination: collection.pagination       //fetchPageでレコード取得すると、collectionにpaginationプロパティが追加される(ページネーションに関する情報をまとめたオブジェクト)
+        };
+        console.log(collection.pagination);
+        res.render('hello/index', data);
+    })
+    .catch((err) => {
+        res.status(500).json({error: true, data: {message: err.message}});
+    });
+});
 
 module.exports = router;
