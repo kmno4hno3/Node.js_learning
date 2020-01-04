@@ -193,6 +193,29 @@ router.post('/delete', (req, res, next) => {
     connection.end();
 })
 
+//検索
+router.get('/find', (req,res,next) => {
+    var data = {
+        title:  '/Hello/Find',
+        content:    '検索IDを入力:',
+        form: {fstr:''},
+        mydata:null
+    };
+    res.render('hello/find', data);
+})
+
+router.post('/find', (req,res, next) => {
+    new MyData().where('id', '=', req.body.fstr).fetch().then((collection) => {     //where(項目名, 比較する記号, 値)で検索する対象を絞りこむ、ここでは id が req.body.fstrの値と等しいかチェック
+        var data = {                                                                //fetch()：一つだけレコードを取り出す
+            title: 'Hello!',
+            content: '※id = ' + req.body.fstr + ' の検索結果：',
+            form: req.body,
+            mydata: collection
+        };
+        res.render('hello/find', data);
+    })
+});
+
 
 
 module.exports = router;
