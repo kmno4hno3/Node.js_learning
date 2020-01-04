@@ -15,7 +15,7 @@
             <table>
                 <% for(var i in content) { %>
                 <tr>
-                    <% var obj = content[i]; %>
+                    <% var obj = content[i].attributes; %>      <!-- attributesプロパティに値が保存されている-->>
                     <th><%= obj.id %></th>
                     <th><%= obj.name %></th>
                     <th><%= obj.mail %></th>
