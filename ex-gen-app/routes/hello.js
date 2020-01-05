@@ -216,7 +216,7 @@ router.post('/find', (req,res, next) => {
     })
 });
 
-Bookshelf.plugin('pagination');     //fetchPage追加、paginatioプラグインを使えるようにした、plucinメソッドでプラグイン名を引数に指定すると利用できる
+Bookshelf.plugin('pagination');     //fetchPage追加、paginatioプラグインを使えるようにした、pluginメソッドでプラグイン名を引数に指定すると利用できる
 
 router.get('/:page', (req, res, next) => {      //:page　pageというパラメーターの値がここに来ることを示す
     var pg = req.params.page;

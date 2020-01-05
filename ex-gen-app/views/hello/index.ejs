@@ -23,6 +23,15 @@
                 </tr>
                 <% } %>
             </table>
+            <div>
+                <span><a href="/hello/1">&lt;&lt; First</a></span>              <!--最初のページ-->
+                |
+                <span><a href="/hello/<%= pagination.page - 1 %>">&lt;&lt; prev</a></span>          <!--前のページ-->
+                |
+                <span><a href="/hello/<%= pagination.page + 1 %>">Next &gt;&gt;</a></span>          <!--次のページ-->
+                |
+                <span><a href="/hello/<%= pagination.pageCount %>">Last &gt;&gt; First</a></span>   <!--最後のページ-->
+            </div>
         </div>
     </body>
 </html>
